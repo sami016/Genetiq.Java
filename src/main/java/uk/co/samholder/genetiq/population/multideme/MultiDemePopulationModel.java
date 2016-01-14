@@ -27,6 +27,7 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
     private final MigrationModel<I> migrationModel;
     private final MultiDemePopulationModelOutputs<I> outputs = new MultiDemePopulationModelOutputs<>();
     private int numDemes;
+    private int populationUnitSize;
     private List<Population<I>> populationPool = new ArrayList<>();
 
     private final Random random;
@@ -39,6 +40,11 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
             populationPool.add(new Population<>(fitnessFunction, populationSize));
         }
         this.random = random;
+    }
+
+    @Override
+    public int getPopulationUnitSize() {
+        return populationUnitSize;
     }
 
     @Override

@@ -8,7 +8,6 @@ package uk.co.samholder.genetiq.runner.genetic;
 import java.util.List;
 import uk.co.samholder.genetiq.control.TerminationCondition;
 import uk.co.samholder.genetiq.data.RunData;
-import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.individuals.Populator;
 import uk.co.samholder.genetiq.output.Interactor;
 import uk.co.samholder.genetiq.population.Population;
@@ -26,29 +25,25 @@ public class GeneticAlgorithm<I extends Object> {
 
     private GeneticAlgorithmOutputs<I> outputs = new GeneticAlgorithmOutputs<>();
 
-    private final FitnessFunction<I> fitnessFunction;
     private final RoundStrategy roundStrategy;
     private final TerminationCondition termination;
     private final PopulationModel<I> populationModel;
     private final Populator<I> populator;
-    private final int numIndividuals;
 
     private final List<Interactor> interactors;
 
-    public GeneticAlgorithm(RoundStrategy roundStrategy, FitnessFunction<I> fitnessFunction, PopulationModel<I> populationModel, Populator<I> populator, TerminationCondition stopCondition, int numIndividuals, List<Interactor> interactors) {
+    public GeneticAlgorithm(RoundStrategy roundStrategy, PopulationModel<I> populationModel, Populator<I> populator, TerminationCondition stopCondition, List<Interactor> interactors) {
         this.roundStrategy = roundStrategy;
-        this.fitnessFunction = fitnessFunction;
         this.populationModel = populationModel;
         this.populator = populator;
         this.termination = stopCondition;
-        this.numIndividuals = numIndividuals;
 
         this.interactors = interactors;
     }
 
     private void generatePopulation() {
         for (Population<I> pop : populationModel) {
-            for (int i = 0; i < numIndividuals; i++) {
+            for (int i = 0; i < populationModel.getPopulationUnitSize(); i++) {
                 pop.insertIndividual(populator.getIndividual());
             }
         }

@@ -12,6 +12,7 @@ import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.individuals.Populator;
 import uk.co.samholder.genetiq.output.Interactor;
 import uk.co.samholder.genetiq.population.PopulationModel;
+import uk.co.samholder.genetiq.population.single.SinglePopulationModel;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 
 /**
@@ -21,26 +22,18 @@ import uk.co.samholder.genetiq.round.RoundStrategy;
 public class GeneticAlgorithmBuilder<I extends Object> {
 
     private RoundStrategy<I> roundStrategy;
-    private FitnessFunction<I> fitnessFunction;
     private PopulationModel<I> populationModel;
     private Populator<I> populator;
     private TerminationCondition<I> terminationCondition;
-    private Integer numIndividuals;
     private final List<Interactor> interactors = new ArrayList<>();
-
-    public GeneticAlgorithmBuilder<I> setFitnessFunction(FitnessFunction<I> fitnessFunction) {
-        this.fitnessFunction = fitnessFunction;
-        return this;
-    }
-
-    public GeneticAlgorithmBuilder<I> setNumIndividuals(Integer numIndividuals) {
-        this.numIndividuals = numIndividuals;
-        return this;
-    }
 
     public GeneticAlgorithmBuilder<I> setPopulationModel(PopulationModel<I> populationModel) {
         this.populationModel = populationModel;
         return this;
+    }
+
+    public void useSinglePopulationModel(FitnessFunction<I> fitnessFunction, int populationSize) {
+        setPopulationModel(new SinglePopulationModel<I>(fitnessFunction, populationSize));
     }
 
     public GeneticAlgorithmBuilder<I> setPopulator(Populator<I> populator) {
@@ -67,9 +60,6 @@ public class GeneticAlgorithmBuilder<I extends Object> {
         if (roundStrategy == null) {
             throw new IllegalStateException("No round strategy set!");
         }
-        if (fitnessFunction == null) {
-            throw new IllegalStateException("No fitness function set!");
-        }
         if (populationModel == null) {
             throw new IllegalStateException("No population model set!");
         }
@@ -79,11 +69,8 @@ public class GeneticAlgorithmBuilder<I extends Object> {
         if (terminationCondition == null) {
             throw new IllegalStateException("No termination condition set!");
         }
-        if (numIndividuals == null) {
-            throw new IllegalStateException("Number of individuals per population not set!");
-        }
 
-        return new GeneticAlgorithm<>(roundStrategy, fitnessFunction, populationModel, populator, terminationCondition, numIndividuals, interactors);
+        return new GeneticAlgorithm<>(roundStrategy, populationModel, populator, terminationCondition, interactors);
     }
 
 }

@@ -24,9 +24,16 @@ public class SinglePopulationModel<I extends Object> implements PopulationModel<
     private final SinglePopulationModelOutputs<I> outputs = new SinglePopulationModelOutputs<>();
 
     private final Population<I> population;
+    private final int populationSize;
 
     public SinglePopulationModel(FitnessFunction<I> fitnessFunction, int popSize) {
         this.population = new Population(fitnessFunction, popSize);
+        this.populationSize = popSize;
+    }
+
+    @Override
+    public int getPopulationUnitSize() {
+        return populationSize;
     }
 
     @Override

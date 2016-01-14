@@ -15,6 +15,8 @@ import uk.co.samholder.genetiq.round.RoundStrategy;
  */
 public interface PopulationModel<I extends Object> extends Iterable<Population<I>> {
 
+    int getPopulationUnitSize();
+
     void writeData(RunData runData);
 
     void doPerformRound(RoundStrategy roundStrategy, RunData runData);
