@@ -61,7 +61,7 @@ public class SinglePopulationModel<I extends Object> implements PopulationModel<
         runData.set(outputs.getBestIndividual(), population.getBestIndividual());
     }
 
-    public SinglePopulationModelOutputs<I> getOutputs() {
+    public SinglePopulationModelOutputs<I> outputs() {
         return outputs;
     }
 

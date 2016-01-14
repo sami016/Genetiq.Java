@@ -3,12 +3,15 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.samholder.genetiq.individuals;
+package uk.co.samholder.genetiq.populator;
 
 /**
  *
  * @author sam
+ * @param <I>
  */
-public interface Individual {
+public interface Populator<I extends Object> {
+
+    public I getIndividual();
 
 }

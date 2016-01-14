@@ -8,10 +8,10 @@ package uk.co.samholder.genetiq.runner.genetic;
 import java.util.List;
 import uk.co.samholder.genetiq.control.TerminationCondition;
 import uk.co.samholder.genetiq.data.RunData;
-import uk.co.samholder.genetiq.individuals.Populator;
 import uk.co.samholder.genetiq.output.Interactor;
 import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.population.PopulationModel;
+import uk.co.samholder.genetiq.populator.Populator;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 
 /**
@@ -77,6 +77,10 @@ public class GeneticAlgorithm<I extends Object> {
             doInteractions(data);
         }
         return data;
+    }
+
+    public GeneticAlgorithmOutputs<I> outputs() {
+        return outputs;
     }
 
 }

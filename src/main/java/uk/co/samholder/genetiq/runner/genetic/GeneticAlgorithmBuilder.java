@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import uk.co.samholder.genetiq.control.TerminationCondition;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
-import uk.co.samholder.genetiq.individuals.Populator;
+import uk.co.samholder.genetiq.populator.Populator;
 import uk.co.samholder.genetiq.output.Interactor;
 import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.population.single.SinglePopulationModel;
