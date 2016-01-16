@@ -47,11 +47,16 @@ public class GenerationalRoundStrategy<I extends Object> implements RoundStrateg
         }
         // Select individuals from the population.
         for (int i = 0; i < population.size() - elitismCount; i++) {
-            List<I> selection = selectionStrategy.select(
-                    population,
-                    combiner.getNumberPerCrossover());
-            // Do crossover.
-            I combined = combiner.combine(selection);
+            I combined;
+            if (combiner != null) {
+                List<I> selection = selectionStrategy.select(
+                        population,
+                        combiner.getNumberPerCrossover());
+                // Do crossover.
+                combined = combiner.combine(selection);
+            } else {
+                combined = selectionStrategy.select(population, 1).get(0);
+            }
             // Do mutation.
             I mutant = mutator.mutate(combined);
 
