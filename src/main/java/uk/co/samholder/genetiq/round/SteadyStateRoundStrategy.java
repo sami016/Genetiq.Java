@@ -32,21 +32,25 @@ public class SteadyStateRoundStrategy<I extends Object> implements RoundStrategy
 
     @Override
     public void performRound(Population<I> population) {
-        // Select N individuals.
-        List<I> selection = selectionStrategy.select(
-                population,
-                combiner.getNumberPerCrossover());
-        // Combine them with crossover.
-        I crossed = combiner.combine(selection);
+        I combined;
+        // Either combine using the combiner, or just sample an individual if no combiner defined.
+        if (combiner != null) {
+            // Select N individuals.
+            List<I> selection = selectionStrategy.select(
+                    population,
+                    combiner.getNumberPerCrossover());
+            // Do crossover.
+            combined = combiner.combine(selection);
+        } else {
+            combined = selectionStrategy.select(population, 1).get(0);
+        }
         // mutate the result.
-        I mutant = mutator.mutate(crossed);
+        I mutant = mutator.mutate(combined);
         // Select the individual to replace.
         List<I> replacements = replaceSelectionStrategy.select(
                 population,
                 1
         );
-
-//        System.out.println("Adding mutant " + mutant);
         // Do the replacement.
         population.replaceIndividual(replacements.get(0), mutant);
     }

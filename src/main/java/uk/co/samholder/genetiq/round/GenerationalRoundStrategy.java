@@ -48,6 +48,7 @@ public class GenerationalRoundStrategy<I extends Object> implements RoundStrateg
         // Select individuals from the population.
         for (int i = 0; i < population.size() - elitismCount; i++) {
             I combined;
+            // Either combine using the combiner, or just sample an individual if no combiner defined.
             if (combiner != null) {
                 List<I> selection = selectionStrategy.select(
                         population,
