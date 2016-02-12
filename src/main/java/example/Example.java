@@ -8,12 +8,15 @@ package example;
 import java.util.Random;
 import uk.co.samholder.genetiq.combiner.Combiner;
 import uk.co.samholder.genetiq.combiner.string.StringUniformCrossover;
+import uk.co.samholder.genetiq.data.Period;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
+import uk.co.samholder.genetiq.individuals.IndividualFitness;
+import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.mutator.Mutator;
 import uk.co.samholder.genetiq.mutator.string.StringMutator;
-import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.population.Population;
+import uk.co.samholder.genetiq.population.single.SinglePopulationModel;
 import uk.co.samholder.genetiq.populator.string.StringPopulator;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithm;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmBuilder;
@@ -71,8 +74,8 @@ public class Example {
         builder.interactors().add(new Interactor() {
             @Override
             public void interact(RunData observed) {
-                //IndividualFitness<String> best = observed.get(population.outputs().getBestIndividual());
-                //System.out.println(best.getFitness() + " ~ " + best.getIndividual());
+                IndividualFitness<String> best = observed.get(new SinglePopulationModel.OutputOptimum<>());
+                System.out.println(best.getFitness() + " ~ " + best.getIndividual());
             }
         });
 
@@ -83,13 +86,13 @@ public class Example {
         RunData runData = ga.run();
 
         // Extract data fromt he results.
-//        int iterations = runData.get(ga.outputs().getPeriodNumber());
-//        Period periodType = runData.get(ga.outputs().getPeriodType());
-//        IndividualFitness<String> best = runData.get(population.outputs().getBestIndividual());
-//
+        int iterations = runData.get(new GeneticAlgorithm.OutputPeriodNumber<>());
+        Period periodType = runData.get(new GeneticAlgorithm.OutputPeriodType<>());
+        IndividualFitness<String> best = runData.get(new SinglePopulationModel.OutputOptimum<>());
+
         System.out.println("GA terminated.");
-//        System.out.println("GA ran for " + iterations + " " + periodType + "s");
-//        System.out.println("Best found individual '" + best.getIndividual() + "' with fitness " + best.getFitness());
+        System.out.println("GA ran for " + iterations + " " + periodType + "s");
+        System.out.println("Best found individual '" + best.getIndividual() + "' with fitness " + best.getFitness());
 
     }
 

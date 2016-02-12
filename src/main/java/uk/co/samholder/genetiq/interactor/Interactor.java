@@ -8,11 +8,17 @@ package uk.co.samholder.genetiq.interactor;
 import uk.co.samholder.genetiq.data.RunData;
 
 /**
+ * Interactor interface for interacting with the system whilst running.
  *
  * @author sam
  */
 public interface Interactor {
 
+    /**
+     * Runs once every iteration, depending on the round strategy that is used.
+     *
+     * @param observed The current run data set.
+     */
     public void interact(RunData observed);
 
 }

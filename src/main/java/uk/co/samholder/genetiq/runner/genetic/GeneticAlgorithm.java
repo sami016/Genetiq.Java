@@ -85,7 +85,7 @@ public class GeneticAlgorithm<I extends Object> {
     public static class OutputPeriodType<I> extends Output<Period> {
     }
 
-    public static class OutputPeriodNumber<I> extends Output<Period> {
+    public static class OutputPeriodNumber<I> extends Output<Integer> {
     }
 
 }
