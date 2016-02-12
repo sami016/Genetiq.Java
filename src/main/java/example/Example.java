@@ -8,19 +8,15 @@ package example;
 import java.util.Random;
 import uk.co.samholder.genetiq.combiner.Combiner;
 import uk.co.samholder.genetiq.combiner.string.StringUniformCrossover;
-import uk.co.samholder.genetiq.data.Period;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
-import uk.co.samholder.genetiq.individuals.IndividualFitness;
 import uk.co.samholder.genetiq.mutator.Mutator;
 import uk.co.samholder.genetiq.mutator.string.StringMutator;
 import uk.co.samholder.genetiq.output.Interactor;
 import uk.co.samholder.genetiq.population.Population;
-import uk.co.samholder.genetiq.population.single.SinglePopulationModel;
 import uk.co.samholder.genetiq.populator.string.StringPopulator;
-import uk.co.samholder.genetiq.round.GenerationalRoundStrategy;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithm;
-import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmBuilder;
+import uk.co.samholder.genetiq.runner.genetic.builder.GeneticAlgorithmBuilder;
 import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.selection.proportionate.FitnessProportionateSelector;
 
@@ -50,56 +46,50 @@ public class Example {
 
         // Create a random number generator.
         Random random = new Random();
-
-        // Create the genetic algorithm builder that configures the GA.
-        GeneticAlgorithmBuilder<String> geneticAlgorithmBuilder = new GeneticAlgorithmBuilder<String>();
-
-        // Set the population strategy. We use a single population of 1000 agents for this model.
-        SinglePopulationModel<String> population = new SinglePopulationModel<String>(stringScore, 1000);
-        geneticAlgorithmBuilder.setPopulationModel(population);
-
         // Sets the round strategy. In this case, a generational strategy is used.
         Selector<String> selection = new FitnessProportionateSelector<>(random, true);
         Mutator<String> mutation = new StringMutator(random, 1.0);
         Combiner<String> combination = new StringUniformCrossover(random);
-        geneticAlgorithmBuilder.setRoundStrategy(
-                new GenerationalRoundStrategy<String>(selection, mutation, combination)
-        );
+
+        // Create the genetic algorithm builder that configures the GA.
+        GeneticAlgorithmBuilder<String> builder = new GeneticAlgorithmBuilder<String>();
+
+        // Set the population strategy. We use a single population of 1000 agents for this model.
+        builder.populatorModel().useSinglePopulationModel(stringScore, 1000);
+
+        builder.roundStrategy().useGenerational(selection, mutation, combination);
 
         // Creates the populator for generating the initial population.
-        geneticAlgorithmBuilder.setPopulator(
-                new StringPopulator(random, stringLength));
-
-        // Creates the termination condition, in this case termination when fitness target is reached.
-        geneticAlgorithmBuilder.setTerminationCondition(
-                (pop, it) -> {
-                    return pop.getBestIndividual().getFitness() >= stringLength;
-                }
+        builder.populator().use(
+                new StringPopulator(random, stringLength)
         );
 
+        // Creates the termination condition, in this case termination when fitness target is reached.
+        builder.terminationCondition().useFitnessThreshold(stringLength);
+
         // Create a interactor for showing us the best individual as the run progresses.
-        geneticAlgorithmBuilder.addInterator(new Interactor() {
+        builder.interactors().add(new Interactor() {
             @Override
             public void interact(RunData observed) {
-                IndividualFitness<String> best = observed.get(population.outputs().getBestIndividual());
-                System.out.println(best.getFitness() + " ~ " + best.getIndividual());
+                //IndividualFitness<String> best = observed.get(population.outputs().getBestIndividual());
+                //System.out.println(best.getFitness() + " ~ " + best.getIndividual());
             }
         });
 
         // Finally create the GA object.
-        GeneticAlgorithm<String> ga = geneticAlgorithmBuilder.build();
+        GeneticAlgorithm<String> ga = builder.build();
 
         // Run the GA, and collect the results.
         RunData runData = ga.run();
 
         // Extract data fromt he results.
-        int iterations = runData.get(ga.outputs().getPeriodNumber());
-        Period periodType = runData.get(ga.outputs().getPeriodType());
-        IndividualFitness<String> best = runData.get(population.outputs().getBestIndividual());
-
-        System.out.println("GA terminated.");
-        System.out.println("GA ran for " + iterations + " " + periodType + "s");
-        System.out.println("Best found individual '" + best.getIndividual() + "' with fitness " + best.getFitness());
+//        int iterations = runData.get(ga.outputs().getPeriodNumber());
+//        Period periodType = runData.get(ga.outputs().getPeriodType());
+//        IndividualFitness<String> best = runData.get(population.outputs().getBestIndividual());
+//
+//        System.out.println("GA terminated.");
+//        System.out.println("GA ran for " + iterations + " " + periodType + "s");
+//        System.out.println("Best found individual '" + best.getIndividual() + "' with fitness " + best.getFitness());
     }
 
 }
