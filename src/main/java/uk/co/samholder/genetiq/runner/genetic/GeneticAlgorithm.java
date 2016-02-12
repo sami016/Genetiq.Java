@@ -7,8 +7,10 @@ package uk.co.samholder.genetiq.runner.genetic;
 
 import java.util.List;
 import uk.co.samholder.genetiq.control.TerminationCondition;
+import uk.co.samholder.genetiq.data.Output;
+import uk.co.samholder.genetiq.data.Period;
 import uk.co.samholder.genetiq.data.RunData;
-import uk.co.samholder.genetiq.output.Interactor;
+import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.populator.Populator;
@@ -23,7 +25,8 @@ import uk.co.samholder.genetiq.round.RoundStrategy;
  */
 public class GeneticAlgorithm<I extends Object> {
 
-    private GeneticAlgorithmOutputs<I> outputs = new GeneticAlgorithmOutputs<>();
+    private final OutputPeriodType outputPeriodType = new OutputPeriodType();
+    private final OutputPeriodNumber outputPeriodNumber = new OutputPeriodNumber();
 
     private final RoundStrategy roundStrategy;
     private final TerminationCondition termination;
@@ -58,7 +61,7 @@ public class GeneticAlgorithm<I extends Object> {
     public RunData run() {
         // Create the run data.
         RunData data = new RunData();
-        data.set(outputs.getPeriodType(), roundStrategy.getPeriodType());
+        data.set(outputPeriodType, roundStrategy.getPeriodType());
 
         // Generate the initial population.
         generatePopulation();
@@ -72,15 +75,17 @@ public class GeneticAlgorithm<I extends Object> {
             populationModel.writeData(data);
             // Set and increase the iteration.
             iteration++;
-            data.set(outputs.getPeriodNumber(), iteration);
+            data.set(outputPeriodNumber, iteration);
             // Prompt external interactions.
             doInteractions(data);
         }
         return data;
     }
 
-    public GeneticAlgorithmOutputs<I> outputs() {
-        return outputs;
+    public static class OutputPeriodType<I> extends Output<Period> {
+    }
+
+    public static class OutputPeriodNumber<I> extends Output<Period> {
     }
 
 }

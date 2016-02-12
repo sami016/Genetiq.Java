@@ -10,6 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import uk.co.samholder.genetiq.control.TerminationCondition;
+import uk.co.samholder.genetiq.data.Output;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.individuals.IndividualFitness;
@@ -24,8 +25,11 @@ import uk.co.samholder.genetiq.round.RoundStrategy;
  */
 public class MultiDemePopulationModel<I extends Object> implements PopulationModel<I> {
 
+    private final OutputPopulations<I> OUTPUT_POPULATIONS = new OutputPopulations();
+    private final OutputOptimum<I> OUTPUT_OPTIMUM = new OutputOptimum();
+    private final OutputOptima<I> OUTPUT_OPTIMA = new OutputOptima();
+
     private final MigrationModel<I> migrationModel;
-    private final MultiDemePopulationModelOutputs<I> outputs = new MultiDemePopulationModelOutputs<>();
     private int numDemes;
     private int populationUnitSize;
     private List<Population<I>> populationPool = new ArrayList<>();
@@ -71,7 +75,7 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
 
     @Override
     public void writeData(RunData runData) {
-        runData.set(outputs.getPopulations(), populationPool);
+        runData.set(OUTPUT_POPULATIONS, populationPool);
         // Get the best individuals.
         List<IndividualFitness<I>> bestIndividuals = new ArrayList<>();
         IndividualFitness<I> bestIndividual = null;
@@ -84,12 +88,17 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
                 bestIndividual = individualFitness;
             }
         }
-        runData.set(outputs.getBestIndividuals(), bestIndividuals);
-        runData.set(outputs.getBestIndividual(), bestIndividual);
+        runData.set(OUTPUT_OPTIMA, bestIndividuals);
+        runData.set(OUTPUT_OPTIMUM, bestIndividual);
     }
 
-    public MultiDemePopulationModelOutputs<I> getOutputs() {
-        return outputs;
+    public static class OutputPopulations<I> extends Output<List<Population<I>>> {
+    }
+
+    public static class OutputOptimum<I> extends Output<IndividualFitness<I>> {
+    }
+
+    public static class OutputOptima<I> extends Output<List<IndividualFitness<I>>> {
     }
 
 }

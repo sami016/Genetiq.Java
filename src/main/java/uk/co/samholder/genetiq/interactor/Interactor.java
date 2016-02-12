@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.samholder.genetiq.environment;
+package uk.co.samholder.genetiq.interactor;
+
+import uk.co.samholder.genetiq.data.RunData;
 
 /**
  *
  * @author sam
  */
-public interface Environment {
+public interface Interactor {
+
+    public void interact(RunData observed);
 
 }

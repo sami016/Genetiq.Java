@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.samholder.genetiq.runner.genetic.builder;
+package uk.co.samholder.genetiq.control;
 
 import uk.co.samholder.genetiq.control.FitnessThresholdTerminationCondition;
 import uk.co.samholder.genetiq.control.IterationCountTerminationCondition;

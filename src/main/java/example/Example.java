@@ -12,11 +12,11 @@ import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.mutator.Mutator;
 import uk.co.samholder.genetiq.mutator.string.StringMutator;
-import uk.co.samholder.genetiq.output.Interactor;
+import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.populator.string.StringPopulator;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithm;
-import uk.co.samholder.genetiq.runner.genetic.builder.GeneticAlgorithmBuilder;
+import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmBuilder;
 import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.selection.proportionate.FitnessProportionateSelector;
 
@@ -87,9 +87,10 @@ public class Example {
 //        Period periodType = runData.get(ga.outputs().getPeriodType());
 //        IndividualFitness<String> best = runData.get(population.outputs().getBestIndividual());
 //
-//        System.out.println("GA terminated.");
+        System.out.println("GA terminated.");
 //        System.out.println("GA ran for " + iterations + " " + periodType + "s");
 //        System.out.println("Best found individual '" + best.getIndividual() + "' with fitness " + best.getFitness());
+
     }
 
 }

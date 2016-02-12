@@ -9,8 +9,10 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import uk.co.samholder.genetiq.control.TerminationCondition;
+import uk.co.samholder.genetiq.data.Output;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
+import uk.co.samholder.genetiq.individuals.IndividualFitness;
 import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.round.RoundStrategy;
@@ -21,7 +23,8 @@ import uk.co.samholder.genetiq.round.RoundStrategy;
  */
 public class SinglePopulationModel<I extends Object> implements PopulationModel<I> {
 
-    private final SinglePopulationModelOutputs<I> outputs = new SinglePopulationModelOutputs<>();
+    private final OutputPopulation<I> outputPopulation = new OutputPopulation<>();
+    private final OutputOptimum<I> outputOptimum = new OutputOptimum<>();
 
     private final Population<I> population;
     private final int populationSize;
@@ -45,7 +48,7 @@ public class SinglePopulationModel<I extends Object> implements PopulationModel<
 
     @Override
     public void writeData(RunData runData) {
-        runData.set(outputs.getPopulation(), population);
+        runData.set(outputPopulation, population);
     }
 
     @Override
@@ -58,11 +61,12 @@ public class SinglePopulationModel<I extends Object> implements PopulationModel<
         roundStrategy.performRound(population);
 
         // Set the best individual.
-        runData.set(outputs.getBestIndividual(), population.getBestIndividual());
+        runData.set(outputOptimum, population.getBestIndividual());
     }
 
-    public SinglePopulationModelOutputs<I> outputs() {
-        return outputs;
+    public static class OutputPopulation<I> extends Output<Population<I>> {
     }
 
+    public static class OutputOptimum<I> extends Output<IndividualFitness<I>> {
+    }
 }
