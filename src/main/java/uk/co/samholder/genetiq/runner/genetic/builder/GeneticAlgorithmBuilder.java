@@ -14,11 +14,11 @@ import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithm;
  */
 public class GeneticAlgorithmBuilder<I extends Object> {
 
-    private PopulationModelBuilder<I> populationModel;
-    private PopulatorBuilder<I> populator;
-    private RoundStrategyBuilder<I> roundStrategy;
-    private TerminationConditionBuilder<I> terminationCondition;
-    private InteractorsBuilder<I> interactors;
+    private PopulationModelBuilder<I> populationModel = new PopulationModelBuilder<>();
+    private PopulatorBuilder<I> populator = new PopulatorBuilder<>();
+    private RoundStrategyBuilder<I> roundStrategy = new RoundStrategyBuilder<>();
+    private TerminationConditionBuilder<I> terminationCondition = new TerminationConditionBuilder<>();
+    private InteractorsBuilder<I> interactors = new InteractorsBuilder<>();
 
     /**
      * Gets the populator builder context.
