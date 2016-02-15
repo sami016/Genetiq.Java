@@ -58,7 +58,7 @@ public class Example {
         GeneticAlgorithmBuilder<String> builder = new GeneticAlgorithmBuilder<String>();
 
         // Set the population model. We use a single population of 1000 individuals for this model.
-        builder.populatorModel().useSinglePopulationModel(stringScore, 1000);
+        builder.populationModel().useSinglePopulationModel(stringScore, 1000);
         // Set the round strategy to be generational with the configured mutation operators.
         builder.roundStrategy().useGenerational(selection, mutation, combination);
 
