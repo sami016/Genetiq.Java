@@ -5,12 +5,11 @@
  */
 package uk.co.samholder.genetiq.runner.genetic;
 
-import uk.co.samholder.genetiq.round.RoundStrategyBuilder;
+import uk.co.samholder.genetiq.control.TerminationConditionBuilder;
 import uk.co.samholder.genetiq.interactor.InteractorsBuilder;
 import uk.co.samholder.genetiq.population.PopulationModelBuilder;
 import uk.co.samholder.genetiq.populator.PopulatorBuilder;
-import uk.co.samholder.genetiq.control.TerminationConditionBuilder;
-import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithm;
+import uk.co.samholder.genetiq.round.RoundStrategyBuilder;
 
 /**
  * Genetic algorithm builder context.
@@ -30,7 +29,7 @@ public class GeneticAlgorithmBuilder<I extends Object> {
      *
      * @return populator builder context.
      */
-    public PopulationModelBuilder<I> populatorModel() {
+    public PopulationModelBuilder<I> populationModel() {
         return populationModel;
     }
 
