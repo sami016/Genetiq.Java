@@ -7,7 +7,7 @@ If you are interested in the library then please feel free to contribute!
 
  - Object orientated approach to genetic algorithms.
  - Cohesive and interchangable modules.
- - Provide support for a range of populat GA techniques, and allow extensibility for new ones. 
+ - Provide support for a range of popular GA techniques, and allow extensibility for new ones. 
  - Clean interface that is easy to use and understand.
  - Provide support for multi-core processing.
 
