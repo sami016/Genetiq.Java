@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.samholder.genetiq.mutator.string;
+package uk.co.samholder.genetiq.representation.string;
 
 import java.util.Random;
 import uk.co.samholder.genetiq.mutator.Mutator;
