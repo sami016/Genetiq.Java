@@ -21,7 +21,7 @@ import uk.co.samholder.genetiq.representation.string.StringPopulator;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithm;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmBuilder;
 import uk.co.samholder.genetiq.selection.Selector;
-import uk.co.samholder.genetiq.selection.proportionate.FitnessProportionateSelector;
+import uk.co.samholder.genetiq.selection.FitnessProportionateSelector;
 
 /**
  *

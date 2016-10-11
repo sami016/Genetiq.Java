@@ -9,7 +9,7 @@ package uk.co.samholder.genetiq.individuals;
  *
  * @author sam
  */
-public class IndividualFitness<I extends Object> {
+public class IndividualFitness<I extends Object> implements Comparable<IndividualFitness> {
 
     private final I individual;
     private final double fitness;
@@ -30,6 +30,11 @@ public class IndividualFitness<I extends Object> {
     @Override
     public String toString() {
         return fitness + " ~ " + individual.toString();
+    }
+
+    @Override
+    public int compareTo(IndividualFitness o) {
+        return getFitness() - o.getFitness();
     }
 
 }

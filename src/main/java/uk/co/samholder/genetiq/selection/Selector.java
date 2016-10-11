@@ -4,8 +4,10 @@ import java.util.List;
 import uk.co.samholder.genetiq.population.Population;
 
 /**
+ * A selector component used for sampling a subset from the population.
  *
- * @author sam
+ * These may be varied to control the strength and scaling of selective
+ * pressures.
  */
 public interface Selector<I extends Object> {
 
