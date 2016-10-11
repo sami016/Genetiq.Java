@@ -24,25 +24,40 @@ public abstract class ScaledSelectorBase<I> {
     }
 
     /**
-     * Selects a single individual from the population.
+     * Selects a single individual from the population at a given position in
+     * the cumulative fitness space.
      *
-     * @param total The fitness sum of the population.
-     * @param minFitness The lowest fitness within the population.
-     * @param individualFitnesses list of individual fitness values.
-     * @return selected individual.
+     * @param selectPosition the position to select for in cumulative fitness
+     * space
+     * @param individualFitnesses list of individual fitness values
+     * @return selected individual
      */
-    protected I selectOne(double total, double minFitness, List<IndividualFitness<I>> individualFitnesses) {
-        // Get a random number within the total.
-        double randomNum = random.nextDouble() * total;
+    protected I selectOneAtPos(double selectPosition, List<IndividualFitness<I>> individualFitnesses) {
         // Select the individual when the cumulative fitness >= the random value.
         double count = 0;
+        System.out.println("pos: " + selectPosition);
+
         for (IndividualFitness<I> individualFitness : individualFitnesses) {
             count += individualFitness.getFitness();
-            if (count >= randomNum) {
+            System.out.println("count: " + count + " for individual " + individualFitness.getIndividual());
+            if (count >= selectPosition) {
                 return individualFitness.getIndividual();
             }
         }
         // Should never get to here.
         throw new IllegalStateException("Error occured while performing fitness proportionate selection!");
+    }
+
+    /**
+     * Selects a single individual from the population.
+     *
+     * @param total The fitness sum of the population.
+     * @param individualFitnesses list of individual fitness values.
+     * @return selected individual.
+     */
+    protected I selectOne(double total, List<IndividualFitness<I>> individualFitnesses) {
+        // Get a random number within the total.
+        double randomNum = random.nextDouble() * total;
+        return selectOneAtPos(randomNum, individualFitnesses);
     }
 }

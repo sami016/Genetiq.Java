@@ -89,7 +89,7 @@ public class BoltzmanSelector<I> extends ScaledSelectorBase<I> implements Select
         // Select n individuals.
         List<I> list = new LinkedList<>();
         for (int i = 0; i < numToSelect; i++) {
-            list.add(selectOne(total, minFitness, scaledFitness));
+            list.add(selectOne(total, scaledFitness));
         }
         return list;
     }

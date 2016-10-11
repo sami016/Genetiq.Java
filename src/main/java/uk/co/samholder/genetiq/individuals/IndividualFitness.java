@@ -34,7 +34,7 @@ public class IndividualFitness<I extends Object> implements Comparable<Individua
 
     @Override
     public int compareTo(IndividualFitness o) {
-        return getFitness() - o.getFitness();
+        return (int) (getFitness() - o.getFitness());
     }
 
 }
