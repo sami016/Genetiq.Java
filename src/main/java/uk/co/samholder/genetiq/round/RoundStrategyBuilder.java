@@ -7,9 +7,6 @@ package uk.co.samholder.genetiq.round;
 
 import uk.co.samholder.genetiq.combiner.Combiner;
 import uk.co.samholder.genetiq.mutator.Mutator;
-import uk.co.samholder.genetiq.round.GenerationalRoundStrategy;
-import uk.co.samholder.genetiq.round.RoundStrategy;
-import uk.co.samholder.genetiq.round.SteadyStateRoundStrategy;
 import uk.co.samholder.genetiq.selection.Selector;
 
 /**

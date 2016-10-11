@@ -18,11 +18,11 @@ import uk.co.samholder.genetiq.round.RoundStrategyBuilder;
  */
 public class GeneticAlgorithmBuilder<I extends Object> {
 
-    private PopulationModelBuilder<I> populationModel = new PopulationModelBuilder<>();
-    private PopulatorBuilder<I> populator = new PopulatorBuilder<>();
-    private RoundStrategyBuilder<I> roundStrategy = new RoundStrategyBuilder<>();
-    private TerminationConditionBuilder<I> terminationCondition = new TerminationConditionBuilder<>();
-    private InteractorsBuilder<I> interactors = new InteractorsBuilder<>();
+    private final PopulationModelBuilder<I> populationModel = new PopulationModelBuilder<>();
+    private final PopulatorBuilder<I> populator = new PopulatorBuilder<>();
+    private final RoundStrategyBuilder<I> roundStrategy = new RoundStrategyBuilder<>();
+    private final TerminationConditionBuilder<I> terminationCondition = new TerminationConditionBuilder<>();
+    private final InteractorsBuilder<I> interactors = new InteractorsBuilder<>();
 
     /**
      * Gets the populator builder context.
