@@ -7,8 +7,6 @@ package uk.co.samholder.genetiq.runner.genetic;
 
 import java.util.List;
 import uk.co.samholder.genetiq.control.TerminationCondition;
-import uk.co.samholder.genetiq.data.Output;
-import uk.co.samholder.genetiq.data.Period;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.population.Population;
@@ -25,8 +23,8 @@ import uk.co.samholder.genetiq.round.RoundStrategy;
  */
 public class GeneticAlgorithm<I extends Object> {
 
-    private final OutputPeriodType outputPeriodType = new OutputPeriodType();
-    private final OutputPeriodNumber outputPeriodNumber = new OutputPeriodNumber();
+    public static final String KEY_PERIOD_TYPE = "GeneticAlgorithm_periodType";
+    public static final String KEY_PERIOD_NUMBER = "GeneticAlgorithm_periodNumber";
 
     private final RoundStrategy roundStrategy;
     private final TerminationCondition termination;
@@ -61,7 +59,7 @@ public class GeneticAlgorithm<I extends Object> {
     public RunData run() {
         // Create the run data.
         RunData data = new RunData();
-        data.set(outputPeriodType, roundStrategy.getPeriodType());
+        data.set(KEY_PERIOD_TYPE, roundStrategy.getPeriodType());
 
         // Generate the initial population.
         generatePopulation();
@@ -75,17 +73,11 @@ public class GeneticAlgorithm<I extends Object> {
             populationModel.writeData(data);
             // Set and increase the iteration.
             iteration++;
-            data.set(outputPeriodNumber, iteration);
+            data.set(KEY_PERIOD_NUMBER, iteration);
             // Prompt external interactions.
             doInteractions(data);
         }
         return data;
-    }
-
-    public static class OutputPeriodType<I> extends Output<Period> {
-    }
-
-    public static class OutputPeriodNumber<I> extends Output<Integer> {
     }
 
 }

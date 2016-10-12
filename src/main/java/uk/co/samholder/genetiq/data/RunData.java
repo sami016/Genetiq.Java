@@ -17,12 +17,12 @@ public class RunData {
 
     private Map<String, Object> map = new HashMap<>();
 
-    public <T> void set(Output<T> outType, T value) {
-        map.put(outType.getKey(), value);
+    public <T> void set(String key, T value) {
+        map.put(key, value);
     }
 
-    public <T> T get(Output<T> outType) {
-        return (T) map.get(outType.getKey());
+    public <T> T get(String key) {
+        return (T) map.get(key);
     }
 
     @Override

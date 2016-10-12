@@ -8,9 +8,7 @@ package uk.co.samholder.genetiq.population.multideme;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Random;
 import uk.co.samholder.genetiq.control.TerminationCondition;
-import uk.co.samholder.genetiq.data.Output;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.individuals.IndividualFitness;
@@ -20,30 +18,39 @@ import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 
 /**
+ * A Multi-deme population model.
  *
- * @author sam
+ * Several populations are evolved in isolation from each other. A migration
+ * strategy is used to move individuals between these demes.
+ *
+ * Data Keys:
+ *
+ * KEY_POPULATIONS :=
+ *
+ * KEY_OPTIMUM :=
+ *
+ * KEY_OPTIMA := set
+ *
+ * @author Sam Holder
  */
 public class MultiDemePopulationModel<I extends Object> implements PopulationModel<I> {
 
-    private final OutputPopulations<I> OUTPUT_POPULATIONS = new OutputPopulations();
-    private final OutputOptimum<I> OUTPUT_OPTIMUM = new OutputOptimum();
-    private final OutputOptima<I> OUTPUT_OPTIMA = new OutputOptima();
+    public static final String KEY_POPULATIONS = "MultiDemePopulationModel_populations";
+    public static final String KEY_OPTIMUM = "MultiDemePopulationModel_optimum";
+    public static final String KEY_OPTIMA = "MultiDemePopulationModel_optima";
 
     private final MigrationModel<I> migrationModel;
-    private int numDemes;
+    private final List<Population<I>> populationPool = new ArrayList<>();
+    private final int numDemes;
     private int populationUnitSize;
-    private List<Population<I>> populationPool = new ArrayList<>();
 
-    private final Random random;
-
-    public MultiDemePopulationModel(MigrationModel<I> migrationModel, FitnessFunction<I> fitnessFunction, int populationSize, int numDemes, Random random) {
+    public MultiDemePopulationModel(MigrationModel<I> migrationModel, FitnessFunction<I> fitnessFunction, int populationSize, int numDemes) {
         this.migrationModel = migrationModel;
-
+        this.populationUnitSize = populationSize;
         this.numDemes = numDemes;
         for (int i = 0; i < numDemes; i++) {
             populationPool.add(new Population<>(fitnessFunction, populationSize));
         }
-        this.random = random;
     }
 
     @Override
@@ -75,7 +82,7 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
 
     @Override
     public void writeData(RunData runData) {
-        runData.set(OUTPUT_POPULATIONS, populationPool);
+        runData.set(KEY_POPULATIONS, populationPool);
         // Get the best individuals.
         List<IndividualFitness<I>> bestIndividuals = new ArrayList<>();
         IndividualFitness<I> bestIndividual = null;
@@ -88,17 +95,8 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
                 bestIndividual = individualFitness;
             }
         }
-        runData.set(OUTPUT_OPTIMA, bestIndividuals);
-        runData.set(OUTPUT_OPTIMUM, bestIndividual);
-    }
-
-    public static class OutputPopulations<I> extends Output<List<Population<I>>> {
-    }
-
-    public static class OutputOptimum<I> extends Output<IndividualFitness<I>> {
-    }
-
-    public static class OutputOptima<I> extends Output<List<IndividualFitness<I>>> {
+        runData.set(KEY_OPTIMA, bestIndividuals);
+        runData.set(KEY_OPTIMUM, bestIndividual);
     }
 
 }
