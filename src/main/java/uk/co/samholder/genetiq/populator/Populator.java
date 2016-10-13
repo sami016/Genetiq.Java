@@ -12,6 +12,6 @@ package uk.co.samholder.genetiq.populator;
  */
 public interface Populator<I extends Object> {
 
-    public I getIndividual();
+    I getIndividual();
 
 }

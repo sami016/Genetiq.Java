@@ -12,6 +12,6 @@ package uk.co.samholder.genetiq.mutator;
  */
 public interface Mutator<I extends Object> {
 
-    public I mutate(I individual);
+    I mutate(I individual);
 
 }
