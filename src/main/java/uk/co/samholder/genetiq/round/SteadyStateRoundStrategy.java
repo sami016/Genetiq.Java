@@ -13,8 +13,10 @@ import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.selection.Selector;
 
 /**
+ * Steady state round strategy where a round consists of a single individual
+ * being removed, and a single individual being added.
  *
- * @author sam
+ * @author Sam Holder
  */
 public class SteadyStateRoundStrategy<I extends Object> implements RoundStrategy<I> {
 

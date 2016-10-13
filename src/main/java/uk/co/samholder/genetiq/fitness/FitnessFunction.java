@@ -8,8 +8,9 @@ package uk.co.samholder.genetiq.fitness;
 import uk.co.samholder.genetiq.population.Population;
 
 /**
+ * Calculates the fitness of an individual.
  *
- * @author sam
+ * @author Sam Holder
  */
 @FunctionalInterface
 public interface FitnessFunction<I extends Object> {
@@ -20,6 +21,6 @@ public interface FitnessFunction<I extends Object> {
      * @param individual The individual being assessed.
      * @return the fitness score for the individual.
      */
-    public double calculateFitness(I individual, Population<I> population);
+    double calculateFitness(I individual, Population<I> population);
 
 }

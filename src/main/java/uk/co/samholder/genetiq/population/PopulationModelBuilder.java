@@ -7,7 +7,6 @@ package uk.co.samholder.genetiq.population;
 
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.population.PopulationModel;
-import uk.co.samholder.genetiq.population.single.SinglePopulationModel;
 
 /**
  * A builder object for

@@ -9,8 +9,10 @@ import uk.co.samholder.genetiq.data.Period;
 import uk.co.samholder.genetiq.population.Population;
 
 /**
+ * Determines how each round of the genetic algorithm is run, an integral part
+ * to the genetic algorithm.
  *
- * @author sam
+ * @author Sam Holder
  */
 public interface RoundStrategy<I extends Object> {
 

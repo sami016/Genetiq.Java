@@ -15,8 +15,10 @@ import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.selection.Selector;
 
 /**
+ * Generation round strategy, where each individual in the population is
+ * replaced each round by a new set of offspring.
  *
- * @author sam
+ * @author Sam Holder
  */
 public class GenerationalRoundStrategy<I extends Object> implements RoundStrategy<I> {
 

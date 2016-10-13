@@ -19,7 +19,7 @@ import uk.co.samholder.genetiq.interactor.RoundBestInteractor;
 import uk.co.samholder.genetiq.mutator.Mutator;
 import uk.co.samholder.genetiq.mutator.pool.StochasticAllMutatorPool;
 import uk.co.samholder.genetiq.population.PopulationModel;
-import uk.co.samholder.genetiq.population.single.SinglePopulationModel;
+import uk.co.samholder.genetiq.population.SinglePopulationModel;
 import uk.co.samholder.genetiq.populator.Populator;
 import uk.co.samholder.genetiq.representation.string.InsertionStringMutator;
 import uk.co.samholder.genetiq.representation.string.PerLociStringMutator;

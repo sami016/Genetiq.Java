@@ -13,8 +13,11 @@ import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.population.PopulationModel;
 
 /**
+ * A migration model where, with a given probability, an individual is taken
+ * from each population. These selected individuals are then shuffled and placed
+ * back randomly into populations.
  *
- * @author sam
+ * @author Sam Holder
  */
 public class UniformMigrationModel<I extends Object> implements MigrationModel<I> {
 

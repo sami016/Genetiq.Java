@@ -14,7 +14,7 @@ import uk.co.samholder.genetiq.individuals.IndividualFitness;
 import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.mutator.Mutator;
 import uk.co.samholder.genetiq.population.Population;
-import uk.co.samholder.genetiq.population.single.SinglePopulationModel;
+import uk.co.samholder.genetiq.population.SinglePopulationModel;
 import uk.co.samholder.genetiq.representation.string.PerLociStringMutator;
 import uk.co.samholder.genetiq.representation.string.StringPopulator;
 import uk.co.samholder.genetiq.representation.string.StringUniformCrossover;
