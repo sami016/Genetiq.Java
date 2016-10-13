@@ -27,7 +27,7 @@ import uk.co.samholder.genetiq.selection.Selector;
  *
  * @author sam
  */
-public class ManuallyConstructedExample {
+public class AStringExampleManual {
 
     // A fitness based on the 'a' count of a string.
     private static FitnessFunction<String> stringScore = new FitnessFunction<String>() {
