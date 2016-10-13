@@ -75,7 +75,7 @@ double calculateFitness(I individual, Population<I> population);
 **purpose**: Calculates the fitness of an individual.
 
 **notes**:
- - Define your own, lambda expressions are simple enough.
+ - Define your own, either with a class implementing this, or with a lambda expression.
  - This is typically passed to the population model, which handles individual fitness.
 
 ## Mutator
