@@ -35,7 +35,6 @@ public abstract class ScaledSelectorBase<I> {
     protected I selectOneAtPos(double selectPosition, List<IndividualFitness<I>> individualFitnesses) {
         // Select the individual when the cumulative fitness >= the random value.
         double count = 0;
-
         for (IndividualFitness<I> individualFitness : individualFitnesses) {
             count += individualFitness.getFitness();
             if (count >= selectPosition) {

@@ -15,7 +15,7 @@ import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.mutator.Mutator;
 import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.population.single.SinglePopulationModel;
-import uk.co.samholder.genetiq.representation.string.StringMutator;
+import uk.co.samholder.genetiq.representation.string.PerLociStringMutator;
 import uk.co.samholder.genetiq.representation.string.StringPopulator;
 import uk.co.samholder.genetiq.representation.string.StringUniformCrossover;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithm;
@@ -27,7 +27,7 @@ import uk.co.samholder.genetiq.selection.Selector;
  *
  * @author sam
  */
-public class Example {
+public class ManuallyConstructedExample {
 
     // A fitness based on the 'a' count of a string.
     private static FitnessFunction<String> stringScore = new FitnessFunction<String>() {
@@ -51,7 +51,7 @@ public class Example {
         Random random = new Random();
         // Sets the round strategy. In this case, a generational strategy is used.
         Selector<String> selection = new FitnessProportionateSelector<>(random, true);
-        Mutator<String> mutation = new StringMutator(random, 1.0);
+        Mutator<String> mutation = new PerLociStringMutator(1.0, random);
         Combiner<String> combination = new StringUniformCrossover(random);
 
         // Create the genetic algorithm builder that configures the GA.
@@ -90,7 +90,6 @@ public class Example {
         Period periodType = runData.get(GeneticAlgorithm.KEY_PERIOD_TYPE);
         IndividualFitness<String> best = runData.get(SinglePopulationModel.KEY_OPTIMUM);
 
-        System.out.println("woo " + best.getClass());
         System.out.println("GA terminated.");
         System.out.println("GA ran for " + iterations + " " + periodType + "s");
         System.out.println("Best found individual '" + best.getIndividual() + "' with fitness " + best.getFitness());

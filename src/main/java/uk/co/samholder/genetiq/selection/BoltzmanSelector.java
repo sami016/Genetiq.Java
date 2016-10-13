@@ -14,13 +14,16 @@ import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.util.ListUtil;
 
 /**
+ * A selector where probability of an individual being selected is proportional
+ * to its transformed fitness. A Boltzman scaling operation is applied to each
+ * fitness.
  *
- * @author sam
+ * @author Sam Holder
  */
 public class BoltzmanSelector<I> extends ScaledSelectorBase<I> implements Selector<I> {
 
     private final double sFactor;
-    private boolean useNormalisation;
+    private final boolean useNormalisation;
 
     public BoltzmanSelector(Random random, boolean useNormalization, double sFactor) {
         super(random);

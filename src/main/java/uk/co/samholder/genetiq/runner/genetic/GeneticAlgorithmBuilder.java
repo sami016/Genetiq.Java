@@ -16,7 +16,7 @@ import uk.co.samholder.genetiq.round.RoundStrategyBuilder;
  *
  * @author sam
  */
-public class GeneticAlgorithmBuilder<I extends Object> {
+public class GeneticAlgorithmBuilder<I> {
 
     private final PopulationModelBuilder<I> populationModel = new PopulationModelBuilder<>();
     private final PopulatorBuilder<I> populator = new PopulatorBuilder<>();

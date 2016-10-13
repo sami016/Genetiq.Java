@@ -26,7 +26,7 @@ public abstract class GeneticAlgorithmFactory<I> {
      *
      * @return round strategy
      */
-    abstract RoundStrategy roundStrategy();
+    protected abstract RoundStrategy roundStrategy();
 
     /**
      * Implements the population model, which defines how the population is
@@ -34,7 +34,7 @@ public abstract class GeneticAlgorithmFactory<I> {
      *
      * @return population model.
      */
-    abstract PopulationModel<I> populationModel();
+    protected abstract PopulationModel<I> populationModel();
 
     /**
      * Implements the populator, an object to seed individuals at the start of
@@ -42,7 +42,7 @@ public abstract class GeneticAlgorithmFactory<I> {
      *
      * @return populator
      */
-    abstract Populator<I> populator();
+    protected abstract Populator<I> populator();
 
     /**
      * Implements the termination condition. Once this condition is satisfied
@@ -50,7 +50,7 @@ public abstract class GeneticAlgorithmFactory<I> {
      *
      * @return termination condition
      */
-    abstract TerminationCondition terminationCondition();
+    protected abstract TerminationCondition terminationCondition();
 
     /**
      * Implements the interactors list, a list of objects used view the
@@ -61,7 +61,7 @@ public abstract class GeneticAlgorithmFactory<I> {
      *
      * @return interactor list
      */
-    abstract List<Interactor> interactors();
+    protected abstract List<Interactor> interactors();
 
     /**
      * Creates the genetic algorithm runner using the configuration specified.

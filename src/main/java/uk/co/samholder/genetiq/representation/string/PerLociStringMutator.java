@@ -9,15 +9,17 @@ import java.util.Random;
 import uk.co.samholder.genetiq.mutator.Mutator;
 
 /**
+ * Basic string mutator which mutates each loci independently with a given
+ * probability.
  *
- * @author sam
+ * @author Sam Holder
  */
-public class StringMutator implements Mutator<String> {
+public class PerLociStringMutator implements Mutator<String> {
 
     private final Random random;
     private final double lociMutationRate;
 
-    public StringMutator(Random random, double lociMutationRate) {
+    public PerLociStringMutator(double lociMutationRate, Random random) {
         this.random = random;
         this.lociMutationRate = lociMutationRate;
     }
