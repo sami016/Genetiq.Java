@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import uk.co.samholder.genetiq.individuals.IndividualFitness;
+import uk.co.samholder.genetiq.population.IndividualFitness;
 
 /**
  *

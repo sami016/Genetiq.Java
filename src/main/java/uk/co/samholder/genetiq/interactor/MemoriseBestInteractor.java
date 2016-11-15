@@ -6,7 +6,7 @@
 package uk.co.samholder.genetiq.interactor;
 
 import uk.co.samholder.genetiq.data.RunData;
-import uk.co.samholder.genetiq.individuals.IndividualFitness;
+import uk.co.samholder.genetiq.population.IndividualFitness;
 
 /**
  *

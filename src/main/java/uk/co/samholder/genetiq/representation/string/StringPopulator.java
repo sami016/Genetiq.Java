@@ -6,7 +6,7 @@
 package uk.co.samholder.genetiq.representation.string;
 
 import java.util.Random;
-import uk.co.samholder.genetiq.populator.Populator;
+import uk.co.samholder.genetiq.population.Populator;
 
 /**
  *

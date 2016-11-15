@@ -8,35 +8,36 @@ package example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import uk.co.samholder.genetiq.control.IterationCountTerminationCondition;
-import uk.co.samholder.genetiq.control.TerminationCondition;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
-import uk.co.samholder.genetiq.individuals.IndividualFitness;
 import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.interactor.MemoriseBestInteractor;
 import uk.co.samholder.genetiq.interactor.RoundBestInteractor;
 import uk.co.samholder.genetiq.mutator.Mutator;
 import uk.co.samholder.genetiq.mutator.pool.StochasticAllMutatorPool;
+import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.PopulationModel;
+import uk.co.samholder.genetiq.population.Populator;
 import uk.co.samholder.genetiq.population.SinglePopulationModel;
-import uk.co.samholder.genetiq.populator.Populator;
 import uk.co.samholder.genetiq.representation.string.InsertionStringMutator;
 import uk.co.samholder.genetiq.representation.string.PerLociStringMutator;
 import uk.co.samholder.genetiq.representation.string.RemovalStringMutator;
 import uk.co.samholder.genetiq.representation.string.StringPopulator;
 import uk.co.samholder.genetiq.round.GenerationalRoundStrategy;
 import uk.co.samholder.genetiq.round.RoundStrategy;
-import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmFactory;
+import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmEngine;
+import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmPipeline;
+import uk.co.samholder.genetiq.runner.genetic.SequentialGeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.selection.FitnessProportionateSelector;
+import uk.co.samholder.genetiq.termination.IterationCountTerminationCondition;
+import uk.co.samholder.genetiq.termination.TerminationCondition;
 
 /**
- * A simple example of evolving a string of 'a's. Uses a simple string
- * populator, and loci mutator.
+ * A simple example of evolving a palindrome string. Uses a simple string populator, and loci mutator.
  *
  * @author Sam Holder
  */
-public class PalindromeExample extends GeneticAlgorithmFactory<String> {
+public class PalindromeExample extends GeneticAlgorithmPipeline<String> {
 
     // Configuration.
     private static final int POPULATION_SIZE = 100;
@@ -46,14 +47,16 @@ public class PalindromeExample extends GeneticAlgorithmFactory<String> {
 
     public static void main(String[] args) {
         // Run the algorithm.
-        RunData data = new PalindromeExample().create().run();
+        GeneticAlgorithmPipeline<String> pipeline = new PalindromeExample();
+        GeneticAlgorithmEngine<String> engine = new SequentialGeneticAlgorithmEngine<>();
+        RunData data = engine.executePipeline(pipeline);
         // Get the best all time result from the algorithm.
         IndividualFitness<String> ind = data.get(MemoriseBestInteractor.BEST_INDIVIDUAL_FITNESS);
         // Check whether palidrome property holds. Print details.
         String result = ind.getIndividual();
         String reverse = reverseString(result);
-        System.out.println("best: " + ind.getFitness() + " individual: " + result + " length: " + result.length());
-        System.out.println("Is palindrome? " + result.equals(reverse));
+        System.out.println("best fitness: " + ind.getFitness() + " individual: " + result + " length: " + result.length());
+        System.out.println("Palindrome check passed: " + result.equals(reverse));
     }
 
     private static final Random RANDOM = new Random();

@@ -7,7 +7,7 @@ package uk.co.samholder.genetiq.selection;
 
 import java.util.List;
 import java.util.Random;
-import uk.co.samholder.genetiq.individuals.IndividualFitness;
+import uk.co.samholder.genetiq.population.IndividualFitness;
 
 /**
  * An abstract base class for selectors to extend that require common selection

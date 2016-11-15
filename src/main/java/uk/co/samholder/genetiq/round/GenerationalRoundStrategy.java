@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.List;
 import uk.co.samholder.genetiq.combiner.Combiner;
 import uk.co.samholder.genetiq.data.Period;
-import uk.co.samholder.genetiq.individuals.IndividualFitness;
 import uk.co.samholder.genetiq.mutator.Mutator;
+import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.selection.Selector;
 
@@ -20,7 +20,7 @@ import uk.co.samholder.genetiq.selection.Selector;
  *
  * @author Sam Holder
  */
-public class GenerationalRoundStrategy<I extends Object> implements RoundStrategy<I> {
+public class GenerationalRoundStrategy<I> implements RoundStrategy<I> {
 
     private final Selector<I> selectionStrategy;
     private final Mutator<I> mutator;

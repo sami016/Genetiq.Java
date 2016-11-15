@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.samholder.genetiq.individuals;
+package uk.co.samholder.genetiq.population;
 
 /**
- *
+ * Data structure for storing an individual and their fitness.
  * @author sam
  */
 public class IndividualFitness<I extends Object> implements Comparable<IndividualFitness> {

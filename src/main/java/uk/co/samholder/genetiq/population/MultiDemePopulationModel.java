@@ -8,10 +8,9 @@ package uk.co.samholder.genetiq.population;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import uk.co.samholder.genetiq.control.TerminationCondition;
+import uk.co.samholder.genetiq.termination.TerminationCondition;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
-import uk.co.samholder.genetiq.individuals.IndividualFitness;
 import uk.co.samholder.genetiq.migration.MigrationModel;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 
@@ -33,7 +32,6 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
 
     private final MigrationModel<I> migrationModel;
     private final List<Population<I>> populationPool = new ArrayList<>();
-    private final int numDemes;
     private int populationUnitSize;
 
     /**
@@ -46,7 +44,6 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
     public MultiDemePopulationModel(MigrationModel<I> migrationModel, FitnessFunction<I> fitnessFunction, int populationSize, int numDemes) {
         this.migrationModel = migrationModel;
         this.populationUnitSize = populationSize;
-        this.numDemes = numDemes;
         for (int i = 0; i < numDemes; i++) {
             populationPool.add(new Population<>(fitnessFunction, populationSize));
         }

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import uk.co.samholder.genetiq.individuals.IndividualFitness;
+import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.Population;
 
 /**

@@ -7,7 +7,7 @@ package uk.co.samholder.genetiq.selection;
 
 import java.util.ArrayList;
 import java.util.List;
-import uk.co.samholder.genetiq.individuals.IndividualFitness;
+import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.util.ListUtil;
 

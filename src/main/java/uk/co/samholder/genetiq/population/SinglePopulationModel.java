@@ -8,7 +8,7 @@ package uk.co.samholder.genetiq.population;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import uk.co.samholder.genetiq.control.TerminationCondition;
+import uk.co.samholder.genetiq.termination.TerminationCondition;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.round.RoundStrategy;

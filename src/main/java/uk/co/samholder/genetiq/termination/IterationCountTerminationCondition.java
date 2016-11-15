@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package uk.co.samholder.genetiq.control;
+package uk.co.samholder.genetiq.termination;
 
 import uk.co.samholder.genetiq.population.Population;
 
