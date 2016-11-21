@@ -10,14 +10,14 @@ import java.util.Random;
 import uk.co.samholder.genetiq.combiner.Combiner;
 
 /**
- *
- * @author sam
+ * Crosses over strings in a uniform manner, which each loci has an equal probability of being picked from either parent.
+ * @author Sam Holder
  */
-public class StringUniformCrossover implements Combiner<String> {
+public class UniformStringCrossover implements Combiner<String> {
 
     private final Random random;
 
-    public StringUniformCrossover(Random random) {
+    public UniformStringCrossover(Random random) {
         this.random = random;
     }
 

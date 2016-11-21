@@ -12,12 +12,12 @@ import uk.co.samholder.genetiq.population.Populator;
  *
  * @author sam
  */
-public class StringPopulator implements Populator<String> {
+public class RandomStringPopulator implements Populator<String> {
 
     private Random random;
     private int length;
 
-    public StringPopulator(Random random, int length) {
+    public RandomStringPopulator(Random random, int length) {
         this.random = random;
         this.length = length;
     }

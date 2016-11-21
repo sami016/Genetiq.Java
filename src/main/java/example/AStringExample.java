@@ -18,8 +18,8 @@ import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.population.Populator;
 import uk.co.samholder.genetiq.population.SinglePopulationModel;
 import uk.co.samholder.genetiq.representation.string.PerLociStringMutator;
-import uk.co.samholder.genetiq.representation.string.StringPopulator;
-import uk.co.samholder.genetiq.representation.string.StringUniformCrossover;
+import uk.co.samholder.genetiq.representation.string.RandomStringPopulator;
+import uk.co.samholder.genetiq.representation.string.UniformStringCrossover;
 import uk.co.samholder.genetiq.round.GenerationalRoundStrategy;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmEngine;
@@ -50,7 +50,7 @@ public class AStringExample extends GeneticAlgorithmPipeline<String> {
         return new GenerationalRoundStrategy(
             new TournamentSelector<>(2),
             new PerLociStringMutator(1.0 / (double) stringLength, random),
-            new StringUniformCrossover(random)
+            new UniformStringCrossover(random)
         );
     }
 
@@ -61,7 +61,7 @@ public class AStringExample extends GeneticAlgorithmPipeline<String> {
 
     @Override
     protected Populator<String> populator() {
-        return new StringPopulator(random, stringLength);
+        return new RandomStringPopulator(random, stringLength);
     }
 
     @Override

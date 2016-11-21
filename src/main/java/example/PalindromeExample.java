@@ -22,7 +22,7 @@ import uk.co.samholder.genetiq.population.SinglePopulationModel;
 import uk.co.samholder.genetiq.representation.string.InsertionStringMutator;
 import uk.co.samholder.genetiq.representation.string.PerLociStringMutator;
 import uk.co.samholder.genetiq.representation.string.RemovalStringMutator;
-import uk.co.samholder.genetiq.representation.string.StringPopulator;
+import uk.co.samholder.genetiq.representation.string.RandomStringPopulator;
 import uk.co.samholder.genetiq.round.GenerationalRoundStrategy;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmEngine;
@@ -106,7 +106,7 @@ public class PalindromeExample extends GeneticAlgorithmPipeline<String> {
 
     @Override
     protected Populator<String> populator() {
-        return new StringPopulator(RANDOM, INITIAL_LENGTH);
+        return new RandomStringPopulator(RANDOM, INITIAL_LENGTH);
     }
 
     @Override
