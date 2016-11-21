@@ -1,7 +1,7 @@
 package uk.co.samholder.genetiq.representation.vector;
 
 import java.util.Random;
-import uk.co.samholder.genetiq.mutator.Mutator;
+import uk.co.samholder.genetiq.variation.Mutator;
 
 /**
  * A random offset vector mutator.

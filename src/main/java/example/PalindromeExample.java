@@ -13,7 +13,7 @@ import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.interactor.MemoriseBestInteractor;
 import uk.co.samholder.genetiq.interactor.RoundBestInteractor;
-import uk.co.samholder.genetiq.mutator.Mutator;
+import uk.co.samholder.genetiq.variation.Mutator;
 import uk.co.samholder.genetiq.mutator.pool.StochasticAllMutatorPool;
 import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.PopulationModel;

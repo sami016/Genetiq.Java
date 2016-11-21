@@ -6,7 +6,7 @@
 package uk.co.samholder.genetiq.representation.string;
 
 import java.util.Random;
-import uk.co.samholder.genetiq.mutator.Mutator;
+import uk.co.samholder.genetiq.variation.Mutator;
 
 /**
  * Basic string mutator which mutates each loci independently with a given

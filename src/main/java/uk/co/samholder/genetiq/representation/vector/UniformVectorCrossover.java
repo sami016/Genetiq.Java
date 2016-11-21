@@ -2,7 +2,7 @@ package uk.co.samholder.genetiq.representation.vector;
 
 import java.util.List;
 import java.util.Random;
-import uk.co.samholder.genetiq.combiner.Combiner;
+import uk.co.samholder.genetiq.variation.Combiner;
 
 /**
  *
@@ -10,14 +10,14 @@ import uk.co.samholder.genetiq.combiner.Combiner;
  */
 public class UniformVectorCrossover implements Combiner<Vector> {
 
-    private Random random;
+    private final Random random;
 
     public UniformVectorCrossover(Random random) {
         this.random = random;
     }
     
     @Override
-    public int getNumberPerCrossover() {
+    public int getNumberToCombine() {
         return 2;
     }
 

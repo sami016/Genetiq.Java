@@ -7,9 +7,9 @@ package uk.co.samholder.genetiq.round;
 
 import java.util.ArrayList;
 import java.util.List;
-import uk.co.samholder.genetiq.combiner.Combiner;
+import uk.co.samholder.genetiq.variation.Combiner;
 import uk.co.samholder.genetiq.data.Period;
-import uk.co.samholder.genetiq.mutator.Mutator;
+import uk.co.samholder.genetiq.variation.Mutator;
 import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.selection.Selector;
@@ -54,7 +54,7 @@ public class GenerationalRoundStrategy<I> implements RoundStrategy<I> {
             if (combiner != null) {
                 List<I> selection = selectionStrategy.select(
                         population,
-                        combiner.getNumberPerCrossover());
+                        combiner.getNumberToCombine());
                 // Do crossover.
                 combined = combiner.combine(selection);
             } else {

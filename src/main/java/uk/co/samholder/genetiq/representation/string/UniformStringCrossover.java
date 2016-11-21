@@ -7,7 +7,7 @@ package uk.co.samholder.genetiq.representation.string;
 
 import java.util.List;
 import java.util.Random;
-import uk.co.samholder.genetiq.combiner.Combiner;
+import uk.co.samholder.genetiq.variation.Combiner;
 
 /**
  * Crosses over strings in a uniform manner, which each loci has an equal probability of being picked from either parent.
@@ -22,7 +22,7 @@ public class UniformStringCrossover implements Combiner<String> {
     }
 
     @Override
-    public int getNumberPerCrossover() {
+    public int getNumberToCombine() {
         return 2;
     }
 
