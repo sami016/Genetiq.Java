@@ -14,8 +14,8 @@ import uk.co.samholder.genetiq.population.Populator;
  */
 public class RandomStringPopulator implements Populator<String> {
 
-    private Random random;
-    private int length;
+    private final Random random;
+    private final int length;
 
     public RandomStringPopulator(Random random, int length) {
         this.random = random;

@@ -13,24 +13,24 @@ import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.interactor.MemoriseBestInteractor;
 import uk.co.samholder.genetiq.interactor.RoundBestInteractor;
-import uk.co.samholder.genetiq.variation.Mutator;
-import uk.co.samholder.genetiq.mutator.pool.StochasticAllMutatorPool;
 import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.population.Populator;
 import uk.co.samholder.genetiq.population.SinglePopulationModel;
 import uk.co.samholder.genetiq.representation.string.InsertionStringMutator;
 import uk.co.samholder.genetiq.representation.string.PerLociStringMutator;
-import uk.co.samholder.genetiq.representation.string.RemovalStringMutator;
 import uk.co.samholder.genetiq.representation.string.RandomStringPopulator;
+import uk.co.samholder.genetiq.representation.string.RemovalStringMutator;
 import uk.co.samholder.genetiq.round.GenerationalRoundStrategy;
 import uk.co.samholder.genetiq.round.RoundStrategy;
-import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmConfiguration;
+import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.runner.genetic.SequentialGeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.selection.FitnessProportionateSelector;
+import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.termination.IterationCountTerminationCondition;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
+import uk.co.samholder.genetiq.variation.VariationPipeline;
 
 /**
  * A simple example of evolving a palindrome string. Uses a simple string populator, and loci mutator.
@@ -44,6 +44,8 @@ public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
     private static final int ROUND_LIMIT = 10000;
     private static final int INITIAL_LENGTH = 5;
     private static final int MAX_LENGTH = 15;
+    
+    private static final Random RANDOM = new Random();
 
     public static void main(String[] args) {
         // Run the algorithm.
@@ -58,8 +60,6 @@ public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
         System.out.println("best fitness: " + ind.getFitness() + " individual: " + result + " length: " + result.length());
         System.out.println("Palindrome check passed: " + result.equals(reverse));
     }
-
-    private static final Random RANDOM = new Random();
 
     private static final FitnessFunction<String> matchFitness = (individual, population) -> {
         double score = 0;
@@ -86,27 +86,27 @@ public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
     };
 
     @Override
-    protected RoundStrategy<String> roundStrategy() {
-        Mutator<String> mutator = new StochasticAllMutatorPool(RANDOM)
-                .use(new PerLociStringMutator(1.0 / 10.0, RANDOM), 1.0)
-                .use(new InsertionStringMutator(0.01, true, RANDOM), 1.0)
-                .use(new RemovalStringMutator(0.01, true, RANDOM), 1.0);
+    protected VariationPipeline<String> variationPipeline() {
+        VariationPipeline<String> variationPipeline = new VariationPipeline<>(RANDOM);
+        variationPipeline.setCombiner(null);
+        variationPipeline.addMutator(new PerLociStringMutator(1.0 / 10.0, RANDOM));
+        variationPipeline.addMutator(new InsertionStringMutator(0.01, true, RANDOM));
+        variationPipeline.addMutator(new RemovalStringMutator(0.01, true, RANDOM));
+        return variationPipeline;
+    }
 
-        return new GenerationalRoundStrategy(
-                new FitnessProportionateSelector<String>(RANDOM, true, (a) -> Math.pow(a, 2)),
-                mutator,
-                null// new StringUniformCrossover(random)
-        );
+    
+    
+    @Override
+    protected RoundStrategy<String> roundStrategy() {
+        return new GenerationalRoundStrategy();
     }
 
     @Override
     protected PopulationModel<String> populationModel() {
-        return new SinglePopulationModel<>(matchFitness, POPULATION_SIZE);
-    }
-
-    @Override
-    protected Populator<String> populator() {
-        return new RandomStringPopulator(RANDOM, INITIAL_LENGTH);
+        Populator<String> populator = new RandomStringPopulator(RANDOM, INITIAL_LENGTH);
+        Selector<String> selector = new FitnessProportionateSelector<String>(RANDOM, true, (a) -> Math.pow(a, 2));
+        return new SinglePopulationModel<>(matchFitness, selector, POPULATION_SIZE, populator);
     }
 
     @Override

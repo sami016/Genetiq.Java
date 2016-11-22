@@ -22,12 +22,14 @@ import uk.co.samholder.genetiq.representation.string.RandomStringPopulator;
 import uk.co.samholder.genetiq.representation.string.UniformStringCrossover;
 import uk.co.samholder.genetiq.round.GenerationalRoundStrategy;
 import uk.co.samholder.genetiq.round.RoundStrategy;
-import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmConfiguration;
+import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.runner.genetic.SequentialGeneticAlgorithmEngine;
+import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.selection.TournamentSelector;
 import uk.co.samholder.genetiq.termination.FitnessThresholdTerminationCondition;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
+import uk.co.samholder.genetiq.variation.VariationPipeline;
 
 /**
  * A simple example of evolving a string of 'a's. Uses a simple string
@@ -37,36 +39,48 @@ import uk.co.samholder.genetiq.termination.TerminationCondition;
  */
 public class AStringExample extends GeneticAlgorithmConfiguration<String> {
 
-    private final int stringLength = 20;
-    private final int populationSize = 400;
-    private final Random random = new Random();
+    // Configuration.
+    private static final int STRING_LENGTH = 20;
+    private static final int POPULATION_SIZE = 400;
+    private static final Random RANDOM = new Random();
 
+    // Fitness function - counts the number types 'a' occurs in a string.
     private final FitnessFunction<String> matchFitness = (individual, population) -> {
         return individual.chars().filter(value -> value == (int) 'a').count();
     };
 
     @Override
+    protected VariationPipeline<String> variationPipeline() {
+        VariationPipeline<String> variationPipeline = new VariationPipeline<>(RANDOM);
+        variationPipeline.setCombiner(new UniformStringCrossover(RANDOM));
+        variationPipeline.addMutator(new PerLociStringMutator(1/(float)STRING_LENGTH, RANDOM));
+        return variationPipeline;
+    }
+
+    @Override
     protected RoundStrategy<String> roundStrategy() {
-        return new GenerationalRoundStrategy(
-            new TournamentSelector<>(2),
-            new PerLociStringMutator(1.0 / (double) stringLength, random),
-            new UniformStringCrossover(random)
-        );
+        return new GenerationalRoundStrategy();
     }
 
     @Override
     protected PopulationModel<String> populationModel() {
-        return new SinglePopulationModel<>(matchFitness, populationSize);
-    }
-
-    @Override
-    protected Populator<String> populator() {
-        return new RandomStringPopulator(random, stringLength);
+        // Use 1 vs. 1 tournament selection.
+        Selector<String> selector = new TournamentSelector<>(2);
+        // Seed the initial population with random strings.
+        Populator<String> populator = new RandomStringPopulator(RANDOM, STRING_LENGTH);
+        
+        return new SinglePopulationModel<>
+        (
+            matchFitness, 
+            selector,
+            POPULATION_SIZE, 
+            populator
+        );
     }
 
     @Override
     protected TerminationCondition terminationCondition() {
-        return new FitnessThresholdTerminationCondition(stringLength);
+        return new FitnessThresholdTerminationCondition(STRING_LENGTH);
     }
 
     @Override

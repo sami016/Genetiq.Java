@@ -2,6 +2,7 @@ package uk.co.samholder.genetiq.variation;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  * A pipeline encapsulating variation operators including mutators, sample mutators and combiners.
@@ -13,6 +14,11 @@ public class VariationPipeline<I> {
     private final List<SampleMutator<I>> sampleMutators = new ArrayList<>();
     private final List<Mutator<I>> mutators = new ArrayList<>();
     private Combiner<I> combiner;
+    private final Random random;
+
+    public VariationPipeline(Random random) {
+        this.random = random;
+    }
 
     /**
      * Gets the combiner operator used or creating new individuals.
@@ -55,11 +61,29 @@ public class VariationPipeline<I> {
     }
     
     /**
+     * Adds a mutator to the pipeline that is applied to a child with a given probability.
+     * @param mutator mutator
+     * @param probability probability of being applied to a child
+     */
+    public void addMutator(Mutator mutator, float probability) {
+        mutators.add(new ProbabilityMutator<>(mutator, probability, random));
+    }
+    
+    /**
      * Adds a sample mutator to the pipeline.
      * @param sampleMutator mutator
      */
     public void addSampleMutator(SampleMutator sampleMutator) {
         sampleMutators.add(sampleMutator);
+    }
+    
+    /**
+     * Adds a sample mutator to the pipeline that is applied to a child with a given probability.
+     * @param sampleMutator mutator
+     * @param probability probability of being applied to a child
+     */
+    public void addSampleMutator(SampleMutator sampleMutator, float probability) {
+        sampleMutators.add(new ProbabilitySampleMutator<>(sampleMutator, probability, random));
     }
 
 }
