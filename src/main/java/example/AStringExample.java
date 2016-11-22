@@ -23,7 +23,7 @@ import uk.co.samholder.genetiq.representation.string.UniformStringCrossover;
 import uk.co.samholder.genetiq.round.GenerationalRoundStrategy;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmEngine;
-import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmPipeline;
+import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmConfiguration;
 import uk.co.samholder.genetiq.runner.genetic.SequentialGeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.selection.TournamentSelector;
 import uk.co.samholder.genetiq.termination.FitnessThresholdTerminationCondition;
@@ -35,7 +35,7 @@ import uk.co.samholder.genetiq.termination.TerminationCondition;
  *
  * @author Sam Holder
  */
-public class AStringExample extends GeneticAlgorithmPipeline<String> {
+public class AStringExample extends GeneticAlgorithmConfiguration<String> {
 
     private final int stringLength = 20;
     private final int populationSize = 400;
@@ -78,7 +78,7 @@ public class AStringExample extends GeneticAlgorithmPipeline<String> {
     }
 
     public static void main(String[] args) {
-        GeneticAlgorithmPipeline<String> pipeline = new AStringExample();
+        GeneticAlgorithmConfiguration<String> pipeline = new AStringExample();
         GeneticAlgorithmEngine<String> engine = new SequentialGeneticAlgorithmEngine<>();
         RunData data = engine.executePipeline(pipeline);
         // Get the best all time result from the algorithm.

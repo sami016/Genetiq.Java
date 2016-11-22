@@ -11,7 +11,7 @@ import uk.co.samholder.genetiq.runner.generic.ExecutionEngine;
  * A standard genetic algorithm runner.
  * @author Sam Holder
  */
-public interface GeneticAlgorithmEngine<I> extends ExecutionEngine<GeneticAlgorithmPipeline<I>> {
+public interface GeneticAlgorithmEngine<I> extends ExecutionEngine<GeneticAlgorithmConfiguration<I>> {
     
     public static final String KEY_PERIOD_TYPE = "GeneticAlgorithm_periodType";
     public static final String KEY_PERIOD_NUMBER = "GeneticAlgorithm_periodNumber";

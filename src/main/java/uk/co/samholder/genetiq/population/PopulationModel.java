@@ -43,4 +43,10 @@ public interface PopulationModel<I extends Object> extends Iterable<Population<I
      */
     boolean isConditionMet(TerminationCondition<I> termintionCondition, int iteration);
 
+    /**
+     * Gets the populator for seeding populations upon initialisation.
+     * @return populator
+     */
+    Populator<I> getPopulator();
+    
 }

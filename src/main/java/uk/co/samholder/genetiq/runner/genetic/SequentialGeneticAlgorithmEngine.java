@@ -13,6 +13,7 @@ import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.population.Populator;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
+import uk.co.samholder.genetiq.variation.StandardVariationEngine;
 import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
@@ -24,11 +25,10 @@ import uk.co.samholder.genetiq.variation.VariationEngine;
 public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngine<I> {
     
     @Override
-    public RunData executePipeline(GeneticAlgorithmPipeline<I> pipeline) {
+    public RunData executePipeline(GeneticAlgorithmConfiguration<I> pipeline) {
         RoundStrategy<I> roundStrategy = pipeline.roundStrategy();
         PopulationModel<I> populationModel = pipeline.populationModel();
-        Populator<I> populator = pipeline.populator();
-        VariationEngine<I> variationEngine = pipeline.variationEngine();
+        VariationEngine<I> variationEngine = new StandardVariationEngine<>(pipeline.variationPipeline());
         TerminationCondition<I> terminationCondition = pipeline.terminationCondition();
         List<Interactor> interactors = pipeline.interactors();
         // Create the run data.
@@ -37,7 +37,7 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
         data.set(GeneticAlgorithmEngine.KEY_PERIOD_TYPE, roundStrategy.getPeriodType());
         
         // Generate the initial population.
-        generatePopulation(populationModel, populator);
+        generatePopulation(populationModel, populationModel.getPopulator());
         populationModel.writeData(data);
 
         int iteration = 0;

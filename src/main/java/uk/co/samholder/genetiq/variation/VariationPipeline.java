@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * A pipeline of variation operators including mutators, sample mutators and combiners.
+ * A pipeline encapsulating variation operators including mutators, sample mutators and combiners.
  * 
  * @author Sam Holder
  */

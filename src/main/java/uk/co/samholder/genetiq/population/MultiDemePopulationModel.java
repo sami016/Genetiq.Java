@@ -35,7 +35,8 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
     private final MigrationModel<I> migrationModel;
     private final List<Population<I>> populationPool = new ArrayList<>();
     private final int populationUnitSize;
-
+    private final Populator<I> populator;
+    
     /**
      *
      * @param migrationModel migration model
@@ -43,13 +44,15 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
      * @param selector primary selector
      * @param populationSize population size
      * @param numDemes number of demes
+     * @param populator populator
      */
-    public MultiDemePopulationModel(MigrationModel<I> migrationModel, FitnessFunction<I> fitnessFunction, Selector<I> selector, int populationSize, int numDemes) {
+    public MultiDemePopulationModel(MigrationModel<I> migrationModel, FitnessFunction<I> fitnessFunction, Selector<I> selector, int populationSize, int numDemes, Populator<I> populator) {
         this.migrationModel = migrationModel;
         this.populationUnitSize = populationSize;
         for (int i = 0; i < numDemes; i++) {
             populationPool.add(new Population<>(fitnessFunction, selector, populationSize));
         }
+        this.populator = populator;
     }
 
     @Override
@@ -97,5 +100,12 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
         runData.set(KEY_OPTIMA, bestIndividuals);
         runData.set(KEY_OPTIMUM, bestIndividual);
     }
+
+    @Override
+    public Populator<I> getPopulator() {
+        return populator;
+    }
+    
+    
 
 }

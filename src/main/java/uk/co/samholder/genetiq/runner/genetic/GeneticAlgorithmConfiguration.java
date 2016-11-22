@@ -4,17 +4,16 @@ package uk.co.samholder.genetiq.runner.genetic;
 import java.util.List;
 import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.population.PopulationModel;
-import uk.co.samholder.genetiq.population.Populator;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.runner.generic.Pipeline;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
-import uk.co.samholder.genetiq.variation.VariationEngine;
+import uk.co.samholder.genetiq.variation.VariationPipeline;
 
 /**
- * Stores contextual information for a algorithm pipeline.
+ * Stores contextual information for a algorithm configuration.
  * @author Sam Holder
  */
-public abstract class GeneticAlgorithmPipeline<I> implements Pipeline {
+public abstract class GeneticAlgorithmConfiguration<I> implements Pipeline {
 
     /**
      * Implements the round strategy, which defines how rounds are handled.
@@ -32,13 +31,6 @@ public abstract class GeneticAlgorithmPipeline<I> implements Pipeline {
      */
     protected abstract PopulationModel<I> populationModel();
 
-    /**
-     * Implements the populator, an object to seed individuals at the start of
-     * the algorithm. This typically generates random individuals.
-     *
-     * @return populator
-     */
-    protected abstract Populator<I> populator();
 
     /**
      * Implements the termination condition. Once this condition is satisfied
@@ -50,11 +42,11 @@ public abstract class GeneticAlgorithmPipeline<I> implements Pipeline {
 
     
     /**
-     * Implements the variation engine. This encapsulates variation operators including
+     * Implements the variation pipeline. This encapsulates variation operators including
      * mutation and crossover.
      * @return variation engine
      */
-    protected abstract VariationEngine<I> variationEngine();
+    protected abstract VariationPipeline<I> variationPipeline();
     
     /**
      * Implements the interactors list, a list of objects used view the
@@ -72,7 +64,6 @@ public abstract class GeneticAlgorithmPipeline<I> implements Pipeline {
         return roundStrategy() != null
                 && terminationCondition() != null
                 && populationModel() != null
-                && populator()!= null
                 && interactors() != null;
     }
     

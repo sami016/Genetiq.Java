@@ -28,16 +28,19 @@ public class SinglePopulationModel<I extends Object> implements PopulationModel<
     public static final String KEY_OPTIMUM = "SinglePopulationModel_optimum";
 
     private final Population<I> population;
+    private final Populator<I> populator;
     private final int populationSize;
 
     /**
-     *
      * @param fitnessFunction fitness function
+     * @param selector primary selector
      * @param popSize population size
+     * @param populator populator
      */
-    public SinglePopulationModel(FitnessFunction<I> fitnessFunction, Selector<I> selector, int popSize) {
+    public SinglePopulationModel(FitnessFunction<I> fitnessFunction, Selector<I> selector, int popSize, Populator<I> populator) {
         this.population = new Population(fitnessFunction, selector, popSize);
         this.populationSize = popSize;
+        this.populator = populator;
     }
 
     @Override
@@ -70,4 +73,8 @@ public class SinglePopulationModel<I extends Object> implements PopulationModel<
         runData.set(KEY_OPTIMUM, population.getBestIndividual());
     }
 
+    @Override
+    public Populator<I> getPopulator() {
+        return populator;
+    }
 }

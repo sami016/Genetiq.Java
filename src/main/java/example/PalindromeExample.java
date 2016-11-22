@@ -26,7 +26,7 @@ import uk.co.samholder.genetiq.representation.string.RandomStringPopulator;
 import uk.co.samholder.genetiq.round.GenerationalRoundStrategy;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmEngine;
-import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmPipeline;
+import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmConfiguration;
 import uk.co.samholder.genetiq.runner.genetic.SequentialGeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.selection.FitnessProportionateSelector;
 import uk.co.samholder.genetiq.termination.IterationCountTerminationCondition;
@@ -37,7 +37,7 @@ import uk.co.samholder.genetiq.termination.TerminationCondition;
  *
  * @author Sam Holder
  */
-public class PalindromeExample extends GeneticAlgorithmPipeline<String> {
+public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
 
     // Configuration.
     private static final int POPULATION_SIZE = 100;
@@ -47,7 +47,7 @@ public class PalindromeExample extends GeneticAlgorithmPipeline<String> {
 
     public static void main(String[] args) {
         // Run the algorithm.
-        GeneticAlgorithmPipeline<String> pipeline = new PalindromeExample();
+        GeneticAlgorithmConfiguration<String> pipeline = new PalindromeExample();
         GeneticAlgorithmEngine<String> engine = new SequentialGeneticAlgorithmEngine<>();
         RunData data = engine.executePipeline(pipeline);
         // Get the best all time result from the algorithm.
