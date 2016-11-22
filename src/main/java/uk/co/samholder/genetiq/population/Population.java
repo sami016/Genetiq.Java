@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
+import uk.co.samholder.genetiq.selection.Selector;
 
 /**
  * Encapsulates a population of individuals.
@@ -26,6 +27,8 @@ public class Population<I extends Object> implements Iterable<IndividualFitness<
     private int populationIndex;
     // The fitness function used to assess individuals.
     private FitnessFunction<I> fitnessFunction;
+    // The selector function used to sample from the population.
+    private Selector<I> selector;
     // The list of individuals.
     private final List<I> individuals;
     // The current fitness of each individual.
@@ -36,8 +39,16 @@ public class Population<I extends Object> implements Iterable<IndividualFitness<
     // Tracks whether fitnesses have yet to be calculated.
     private boolean initialPhase;
 
-    public Population(FitnessFunction<I> fitnessFunction, int populationIndex) {
+    /**
+     * Creates an empty population.
+     *
+     * @param fitnessFunction fitness function
+     * @param selector selector used to sample individuals
+     * @param populationIndex an index used to identify the population
+     */
+    public Population(FitnessFunction<I> fitnessFunction, Selector<I> selector, int populationIndex) {
         this.fitnessFunction = fitnessFunction;
+        this.selector = selector;
         this.populationIndex = populationIndex;
         this.individuals = new ArrayList<>();
         this.fitnessMapping = new HashMap<>();
@@ -49,9 +60,10 @@ public class Population<I extends Object> implements Iterable<IndividualFitness<
      * Creates an empty population.
      *
      * @param fitnessFunction fitness function
+     * @param selector selector used to sample individuals
      */
-    public Population(FitnessFunction<I> fitnessFunction) {
-        this(fitnessFunction, 0);
+    public Population(FitnessFunction<I> fitnessFunction, Selector<I> selector) {
+        this(fitnessFunction, selector, 0);
     }
 
     /**
@@ -261,5 +273,23 @@ public class Population<I extends Object> implements Iterable<IndividualFitness<
      */
     public I getRandomIndividual(Random random) {
         return individuals.get(random.nextInt(individuals.size()));
+    }
+
+    /**
+     * Gets the primary selector used to select individuals.
+     * @return primary selector
+     */
+    public Selector<I> getSelector() {
+        return selector;
+    }
+    
+    /**
+     * Creates a sampler from the population using a given selector.
+     * 
+     * @param selector selector to use for sampling
+     * @return population sampler using selector
+     */
+    public PopulationSampler<I> CreateSampler(Selector<I> selector) {
+        return new StandardPopulationSampler<>(this, selector);
     }
 }

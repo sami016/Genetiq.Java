@@ -8,11 +8,13 @@ package uk.co.samholder.genetiq.population;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import uk.co.samholder.genetiq.termination.TerminationCondition;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.migration.MigrationModel;
 import uk.co.samholder.genetiq.round.RoundStrategy;
+import uk.co.samholder.genetiq.selection.Selector;
+import uk.co.samholder.genetiq.termination.TerminationCondition;
+import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
  * A Multi-deme population model where several populations are evolved in
@@ -32,20 +34,21 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
 
     private final MigrationModel<I> migrationModel;
     private final List<Population<I>> populationPool = new ArrayList<>();
-    private int populationUnitSize;
+    private final int populationUnitSize;
 
     /**
      *
      * @param migrationModel migration model
      * @param fitnessFunction fitness function
+     * @param selector primary selector
      * @param populationSize population size
      * @param numDemes number of demes
      */
-    public MultiDemePopulationModel(MigrationModel<I> migrationModel, FitnessFunction<I> fitnessFunction, int populationSize, int numDemes) {
+    public MultiDemePopulationModel(MigrationModel<I> migrationModel, FitnessFunction<I> fitnessFunction, Selector<I> selector, int populationSize, int numDemes) {
         this.migrationModel = migrationModel;
         this.populationUnitSize = populationSize;
         for (int i = 0; i < numDemes; i++) {
-            populationPool.add(new Population<>(fitnessFunction, populationSize));
+            populationPool.add(new Population<>(fitnessFunction, selector, populationSize));
         }
     }
 
@@ -55,9 +58,9 @@ public class MultiDemePopulationModel<I extends Object> implements PopulationMod
     }
 
     @Override
-    public void doPerformRound(RoundStrategy roundStrategy, RunData runData) {
+    public void doPerformRound(RoundStrategy roundStrategy, VariationEngine variationEngine, RunData runData) {
         for (Population<I> population : populationPool) {
-            roundStrategy.performRound(population);
+            roundStrategy.performRound(population, variationEngine);
         }
         migrationModel.performMigration(this);
     }

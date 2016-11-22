@@ -8,6 +8,11 @@ import java.util.List;
  */
 public interface PopulationSampler<I> {
     
+    /**
+     * Samples an individual from a population.
+     * @param numberOfIndividuals number of individuals to sample
+     * @return sampled list of individuals
+     */
     public List<I> sample(int numberOfIndividuals);
     
 }

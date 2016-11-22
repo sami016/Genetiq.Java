@@ -9,7 +9,7 @@ import uk.co.samholder.genetiq.population.Population;
  * These may be varied to control the strength and scaling of selective
  * pressures.
  */
-public interface Selector<I extends Object> {
+public interface Selector<I> {
 
     public List<I> select(Population<I> population, int numToSelect);
 

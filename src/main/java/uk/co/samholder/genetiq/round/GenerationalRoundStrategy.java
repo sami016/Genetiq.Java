@@ -7,12 +7,11 @@ package uk.co.samholder.genetiq.round;
 
 import java.util.ArrayList;
 import java.util.List;
-import uk.co.samholder.genetiq.variation.Combiner;
 import uk.co.samholder.genetiq.data.Period;
-import uk.co.samholder.genetiq.variation.Mutator;
 import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.Population;
-import uk.co.samholder.genetiq.selection.Selector;
+import uk.co.samholder.genetiq.population.PopulationSampler;
+import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
  * Generation round strategy, where each individual in the population is
@@ -22,24 +21,19 @@ import uk.co.samholder.genetiq.selection.Selector;
  */
 public class GenerationalRoundStrategy<I> implements RoundStrategy<I> {
 
-    private final Selector<I> selectionStrategy;
-    private final Mutator<I> mutator;
-    private final Combiner<I> combiner;
     private final int elitismCount;
 
-    public GenerationalRoundStrategy(Selector<I> selectionStrategy, Mutator<I> mutator, Combiner<I> combiner) {
-        this(selectionStrategy, mutator, combiner, 0);
+    public GenerationalRoundStrategy() {
+        this(0);
     }
 
-    public GenerationalRoundStrategy(Selector<I> selectionStrategy, Mutator<I> mutator, Combiner<I> combiner, int elitismCount) {
-        this.selectionStrategy = selectionStrategy;
-        this.mutator = mutator;
-        this.combiner = combiner;
+    public GenerationalRoundStrategy(int elitismCount) {
         this.elitismCount = elitismCount;
     }
 
     @Override
-    public void performRound(Population<I> population) {
+    public void performRound(Population<I> population, VariationEngine<I> variationEngine) {
+        PopulationSampler<I> sampler = population.CreateSampler(population.getSelector());
         // Clone the population.
         List<I> newPopulation = new ArrayList<>();
         // Take most elite individuals first.
@@ -49,22 +43,8 @@ public class GenerationalRoundStrategy<I> implements RoundStrategy<I> {
         }
         // Select individuals from the population.
         for (int i = 0; i < population.size() - elitismCount; i++) {
-            I combined;
-            // Either combine using the combiner, or just sample an individual if no combiner defined.
-            if (combiner != null) {
-                List<I> selection = selectionStrategy.select(
-                        population,
-                        combiner.getNumberToCombine());
-                // Do crossover.
-                combined = combiner.combine(selection);
-            } else {
-                combined = selectionStrategy.select(population, 1).get(0);
-            }
-            // Do mutation.
-            I mutant = mutator.mutate(combined);
-
             // Add the mutant to the new pool.
-            newPopulation.add(mutant);
+            newPopulation.add(variationEngine.createChild(sampler));
         }
         // Set the population to the new one.
         population.clear();

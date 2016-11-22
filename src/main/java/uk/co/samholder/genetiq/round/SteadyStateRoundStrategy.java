@@ -1,16 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uk.co.samholder.genetiq.round;
 
-import java.util.List;
-import uk.co.samholder.genetiq.variation.Combiner;
 import uk.co.samholder.genetiq.data.Period;
-import uk.co.samholder.genetiq.variation.Mutator;
 import uk.co.samholder.genetiq.population.Population;
+import uk.co.samholder.genetiq.population.PopulationSampler;
 import uk.co.samholder.genetiq.selection.Selector;
+import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
  * Steady state round strategy where a round consists of a single individual
@@ -18,43 +12,29 @@ import uk.co.samholder.genetiq.selection.Selector;
  *
  * @author Sam Holder
  */
-public class SteadyStateRoundStrategy<I extends Object> implements RoundStrategy<I> {
+public class SteadyStateRoundStrategy<I> implements RoundStrategy<I> {
 
-    private final Selector<I> selectionStrategy;
     private final Selector<I> replaceSelectionStrategy;
-    private final Mutator<I> mutator;
-    private final Combiner<I> combiner;
 
-    public SteadyStateRoundStrategy(Selector<I> selectionStrategy, Selector<I> replaceSelectionStrategy, Mutator<I> mutator, Combiner<I> combiner) {
-        this.selectionStrategy = selectionStrategy;
+    /**
+     * @param replaceSelectionStrategy selector used to select individuals for replacement
+     */
+    public SteadyStateRoundStrategy(Selector<I> replaceSelectionStrategy) {
         this.replaceSelectionStrategy = replaceSelectionStrategy;
-        this.mutator = mutator;
-        this.combiner = combiner;
     }
 
     @Override
-    public void performRound(Population<I> population) {
-        I combined;
-        // Either combine using the combiner, or just sample an individual if no combiner defined.
-        if (combiner != null) {
-            // Select N individuals.
-            List<I> selection = selectionStrategy.select(
-                    population,
-                    combiner.getNumberToCombine());
-            // Do crossover.
-            combined = combiner.combine(selection);
-        } else {
-            combined = selectionStrategy.select(population, 1).get(0);
-        }
+    public void performRound(Population<I> population, VariationEngine<I> variationEngine) {
+        PopulationSampler<I> sampler = population.CreateSampler(population.getSelector());
         // mutate the result.
-        I mutant = mutator.mutate(combined);
+        I child = variationEngine.createChild(sampler);
         // Select the individual to replace.
-        List<I> replacements = replaceSelectionStrategy.select(
+        I replacement = replaceSelectionStrategy.select(
                 population,
                 1
-        );
+        ).get(0);
         // Do the replacement.
-        population.replaceIndividual(replacements.get(0), mutant);
+        population.replaceIndividual(replacement, child);
     }
 
     @Override

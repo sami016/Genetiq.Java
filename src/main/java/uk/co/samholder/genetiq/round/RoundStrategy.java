@@ -1,12 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package uk.co.samholder.genetiq.round;
 
 import uk.co.samholder.genetiq.data.Period;
 import uk.co.samholder.genetiq.population.Population;
+import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
  * Determines how each round of the genetic algorithm is run, an integral part
@@ -16,8 +12,16 @@ import uk.co.samholder.genetiq.population.Population;
  */
 public interface RoundStrategy<I extends Object> {
 
-    void performRound(Population<I> population);
+    /**
+     * Performs the round.
+     * @param population 
+     */
+    public void performRound(Population<I> population, VariationEngine<I> variationEngine);
 
-    Period getPeriodType();
+    /**
+     * Gets the period type of the round.
+     * @return period type
+     */
+    public Period getPeriodType();
 
 }

@@ -8,6 +8,7 @@ import uk.co.samholder.genetiq.population.Populator;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.runner.generic.Pipeline;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
+import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
  * Stores contextual information for a algorithm pipeline.
@@ -47,6 +48,14 @@ public abstract class GeneticAlgorithmPipeline<I> implements Pipeline {
      */
     protected abstract TerminationCondition terminationCondition();
 
+    
+    /**
+     * Implements the variation engine. This encapsulates variation operators including
+     * mutation and crossover.
+     * @return variation engine
+     */
+    protected abstract VariationEngine<I> variationEngine();
+    
     /**
      * Implements the interactors list, a list of objects used view the
      * algorithm state whilst running. This can be used to extract data for

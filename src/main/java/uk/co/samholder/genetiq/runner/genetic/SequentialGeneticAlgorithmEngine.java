@@ -13,6 +13,7 @@ import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.population.Populator;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
+import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
  * Simple sequential genetic algorithm engine implementation. 
@@ -27,6 +28,7 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
         RoundStrategy<I> roundStrategy = pipeline.roundStrategy();
         PopulationModel<I> populationModel = pipeline.populationModel();
         Populator<I> populator = pipeline.populator();
+        VariationEngine<I> variationEngine = pipeline.variationEngine();
         TerminationCondition<I> terminationCondition = pipeline.terminationCondition();
         List<Interactor> interactors = pipeline.interactors();
         // Create the run data.
@@ -42,7 +44,7 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
         // Run the loop until termination condition is met.
         while (!populationModel.isConditionMet(terminationCondition, iteration)) {
             // For the population, perform the round.
-            populationModel.doPerformRound(roundStrategy, data);
+            populationModel.doPerformRound(roundStrategy, variationEngine, data);
             populationModel.writeData(data);
             // Set and increase the iteration.
             iteration++;

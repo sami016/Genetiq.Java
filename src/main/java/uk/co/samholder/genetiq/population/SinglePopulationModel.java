@@ -8,10 +8,12 @@ package uk.co.samholder.genetiq.population;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import uk.co.samholder.genetiq.termination.TerminationCondition;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.round.RoundStrategy;
+import uk.co.samholder.genetiq.selection.Selector;
+import uk.co.samholder.genetiq.termination.TerminationCondition;
+import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
  * A population model for a single population.
@@ -33,8 +35,8 @@ public class SinglePopulationModel<I extends Object> implements PopulationModel<
      * @param fitnessFunction fitness function
      * @param popSize population size
      */
-    public SinglePopulationModel(FitnessFunction<I> fitnessFunction, int popSize) {
-        this.population = new Population(fitnessFunction, popSize);
+    public SinglePopulationModel(FitnessFunction<I> fitnessFunction, Selector<I> selector, int popSize) {
+        this.population = new Population(fitnessFunction, selector, popSize);
         this.populationSize = popSize;
     }
 
@@ -61,8 +63,8 @@ public class SinglePopulationModel<I extends Object> implements PopulationModel<
     }
 
     @Override
-    public void doPerformRound(RoundStrategy roundStrategy, RunData runData) {
-        roundStrategy.performRound(population);
+    public void doPerformRound(RoundStrategy roundStrategy, VariationEngine variationEngine, RunData runData) {
+        roundStrategy.performRound(population, variationEngine);
 
         // Set the best individual.
         runData.set(KEY_OPTIMUM, population.getBestIndividual());

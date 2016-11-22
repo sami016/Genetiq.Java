@@ -1,8 +1,9 @@
 package uk.co.samholder.genetiq.population;
 
-import uk.co.samholder.genetiq.termination.TerminationCondition;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.round.RoundStrategy;
+import uk.co.samholder.genetiq.termination.TerminationCondition;
+import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
  * A model representing a population or set of populations within an algorithm.
@@ -31,7 +32,7 @@ public interface PopulationModel<I extends Object> extends Iterable<Population<I
      * @param roundStrategy round strategy
      * @param runData run data context
      */
-    void doPerformRound(RoundStrategy roundStrategy, RunData runData);
+    void doPerformRound(RoundStrategy roundStrategy, VariationEngine variationEngine, RunData runData);
 
     /**
      * Checks whether a termination condition is met at a given iteration.
