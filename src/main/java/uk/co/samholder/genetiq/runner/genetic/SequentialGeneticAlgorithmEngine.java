@@ -23,6 +23,19 @@ import uk.co.samholder.genetiq.variation.VariationEngine;
  */
 public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngine<I> {
     
+    /**
+     * Performs the round run using the given round strategy for each population
+     * @param populationModel population model
+     * @param roundStrategy round strategy
+     * @param variationEngine variation engine
+     */
+    protected void PerformRound(PopulationModel<I> populationModel, RoundStrategy<I> roundStrategy, VariationEngine<I> variationEngine) {
+        // Within each of the model's populations, perform the round.
+        for (Population<I> population : populationModel) {
+            roundStrategy.performRound(population, variationEngine);
+        }
+    }
+    
     @Override
     public RunData executePipeline(GeneticAlgorithmConfiguration<I> pipeline) {
         RoundStrategy<I> roundStrategy = pipeline.roundStrategy();
@@ -42,10 +55,9 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
         int iteration = 0;
         // Run the loop until termination condition is met.
         while (!populationModel.isConditionMet(terminationCondition, iteration)) {
-            // Within each of the model's populations, perform the round.
-            for (Population<I> population : populationModel) {
-                roundStrategy.performRound(population, variationEngine);
-            }
+            populationModel.preRound(data);
+            PerformRound(populationModel, roundStrategy, variationEngine);
+            populationModel.postRound(data);
             populationModel.writeData(data);
             // Set and increase the iteration.
             iteration++;
