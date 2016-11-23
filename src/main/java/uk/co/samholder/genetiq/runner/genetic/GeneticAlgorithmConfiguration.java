@@ -5,15 +5,15 @@ import java.util.List;
 import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.round.RoundStrategy;
-import uk.co.samholder.genetiq.runner.generic.Pipeline;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
 import uk.co.samholder.genetiq.variation.VariationPipeline;
+import uk.co.samholder.genetiq.runner.generic.AlgorithmConfiguration;
 
 /**
  * Stores contextual information for a algorithm configuration.
  * @author Sam Holder
  */
-public abstract class GeneticAlgorithmConfiguration<I> implements Pipeline {
+public abstract class GeneticAlgorithmConfiguration<I> implements AlgorithmConfiguration {
 
     /**
      * Implements the round strategy, which defines how rounds are handled.

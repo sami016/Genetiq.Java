@@ -20,7 +20,7 @@ import uk.co.samholder.genetiq.variation.VariationEngine;
  *
  * @author Sam Holder
  */
-public class SinglePopulationModel<I> implements PopulationModel<I> {
+public class SinglePopulationModel<I> extends AbstractPopulationModel<I> {
 
     // The population at the end of the last round.
     public static final String KEY_POPULATION = "SinglePopulationModel_population";
@@ -77,4 +77,5 @@ public class SinglePopulationModel<I> implements PopulationModel<I> {
     public Populator<I> getPopulator() {
         return populator;
     }
+
 }

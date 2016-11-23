@@ -9,7 +9,7 @@ package uk.co.samholder.genetiq.runner.generic;
  * Contains the execution context for an algorithm.
  * @author Sam Holder
  */
-public interface Pipeline {
+public interface AlgorithmConfiguration {
     
     /**
      * Validates that the pipeline is valid.

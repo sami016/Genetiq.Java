@@ -8,9 +8,7 @@ package uk.co.samholder.genetiq.runner.genetic;
 import java.util.List;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.interactor.Interactor;
-import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.population.PopulationModel;
-import uk.co.samholder.genetiq.population.Populator;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
 import uk.co.samholder.genetiq.variation.StandardVariationEngine;
@@ -37,7 +35,7 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
         data.set(GeneticAlgorithmEngine.KEY_PERIOD_TYPE, roundStrategy.getPeriodType());
         
         // Generate the initial population.
-        generatePopulation(populationModel, populationModel.getPopulator());
+        populationModel.seedIndividuals();
         populationModel.writeData(data);
 
         int iteration = 0;
@@ -55,18 +53,6 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
         return data;
     }
     
-    /**
-     * Seeds the initial populations.
-     * @param populationModel population model.
-     * @param populator populator.
-     */
-    private void generatePopulation(PopulationModel<I> populationModel, Populator<I> populator) {
-        for (Population<I> pop : populationModel) {
-            for (int i = 0; i < populationModel.getPopulationUnitSize(); i++) {
-                pop.insertIndividual(populator.getIndividual());
-            }
-        }
-    }
 
     /**
      * Run all interactors.

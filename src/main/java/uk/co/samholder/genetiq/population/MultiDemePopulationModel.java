@@ -23,7 +23,7 @@ import uk.co.samholder.genetiq.variation.VariationEngine;
  *
  * @author Sam Holder
  */
-public class MultiDemePopulationModel<I extends Object> implements PopulationModel<I> {
+public class MultiDemePopulationModel<I extends Object> extends AbstractPopulationModel<I> {
 
     // The populations at the end of the last round.
     public static final String KEY_POPULATIONS = "MultiDemePopulationModel_populations";

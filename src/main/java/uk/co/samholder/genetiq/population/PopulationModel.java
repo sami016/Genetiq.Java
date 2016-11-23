@@ -49,4 +49,8 @@ public interface PopulationModel<I extends Object> extends Iterable<Population<I
      */
     Populator<I> getPopulator();
     
+    /**
+     * Seeds individuals within populations upon initialisation.
+     */
+    void seedIndividuals();
 }
