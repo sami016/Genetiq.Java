@@ -11,10 +11,8 @@ import java.util.List;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.migration.MigrationModel;
-import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
-import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
  * A Multi-deme population model where several populations are evolved in
@@ -61,10 +59,12 @@ public class MultiDemePopulationModel<I extends Object> extends AbstractPopulati
     }
 
     @Override
-    public void doPerformRound(RoundStrategy roundStrategy, VariationEngine variationEngine, RunData runData) {
-        for (Population<I> population : populationPool) {
-            roundStrategy.performRound(population, variationEngine);
-        }
+    public void preRound(RunData runData) {
+        // No behaviour.
+    }
+
+    @Override
+    public void postRound(RunData runData) {
         migrationModel.performMigration(this);
     }
 

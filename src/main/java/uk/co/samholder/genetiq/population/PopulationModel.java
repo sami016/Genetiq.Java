@@ -1,9 +1,7 @@
 package uk.co.samholder.genetiq.population;
 
 import uk.co.samholder.genetiq.data.RunData;
-import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
-import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
  * A model representing a population or set of populations within an algorithm.
@@ -18,21 +16,6 @@ public interface PopulationModel<I extends Object> extends Iterable<Population<I
      * @return population unit size
      */
     int getPopulationUnitSize();
-
-    /**
-     * Writes out relevant data to the run data context.
-     *
-     * @param runData run data context
-     */
-    void writeData(RunData runData);
-
-    /**
-     * Performs the round for the given population(s) given a round strategy.
-     *
-     * @param roundStrategy round strategy
-     * @param runData run data context
-     */
-    void doPerformRound(RoundStrategy roundStrategy, VariationEngine variationEngine, RunData runData);
 
     /**
      * Checks whether a termination condition is met at a given iteration.
@@ -53,4 +36,25 @@ public interface PopulationModel<I extends Object> extends Iterable<Population<I
      * Seeds individuals within populations upon initialisation.
      */
     void seedIndividuals();
+    
+    /**
+     * Runs before each round of the algorithm.
+     * @param runData run data
+     */
+    void preRound(RunData runData);
+    
+    /**
+     * Runs after each round of the algorithm.
+     * @param runData run data
+     */
+    void postRound(RunData runData);
+
+    /**
+     * Writes out observation data to the run data context.
+     * Is run after each round of the algorithm just after postRound is invoked.
+     *
+     * @param runData run data context
+     */
+    void writeData(RunData runData);
+    
 }

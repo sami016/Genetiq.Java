@@ -8,6 +8,7 @@ package uk.co.samholder.genetiq.runner.genetic;
 import java.util.List;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.interactor.Interactor;
+import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
@@ -41,8 +42,10 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
         int iteration = 0;
         // Run the loop until termination condition is met.
         while (!populationModel.isConditionMet(terminationCondition, iteration)) {
-            // For the population, perform the round.
-            populationModel.doPerformRound(roundStrategy, variationEngine, data);
+            // Within each of the model's populations, perform the round.
+            for (Population<I> population : populationModel) {
+                roundStrategy.performRound(population, variationEngine);
+            }
             populationModel.writeData(data);
             // Set and increase the iteration.
             iteration++;

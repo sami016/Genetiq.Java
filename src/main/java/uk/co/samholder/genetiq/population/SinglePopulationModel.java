@@ -10,10 +10,8 @@ import java.util.Iterator;
 import java.util.List;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
-import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
-import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
  * A population model for a single population.
@@ -58,6 +56,7 @@ public class SinglePopulationModel<I> extends AbstractPopulationModel<I> {
     @Override
     public void writeData(RunData runData) {
         runData.set(KEY_POPULATION, population);
+        runData.set(KEY_OPTIMUM, population.getBestIndividual());
     }
 
     @Override
@@ -66,12 +65,15 @@ public class SinglePopulationModel<I> extends AbstractPopulationModel<I> {
     }
 
     @Override
-    public void doPerformRound(RoundStrategy roundStrategy, VariationEngine variationEngine, RunData runData) {
-        roundStrategy.performRound(population, variationEngine);
-
-        // Set the best individual.
-        runData.set(KEY_OPTIMUM, population.getBestIndividual());
+    public void preRound(RunData runData) {
     }
+    
+
+    @Override
+    public void postRound(RunData runData) {
+    }
+    
+    
 
     @Override
     public Populator<I> getPopulator() {
