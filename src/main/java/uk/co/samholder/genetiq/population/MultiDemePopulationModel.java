@@ -8,10 +8,9 @@ package uk.co.samholder.genetiq.population;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Supplier;
 import uk.co.samholder.genetiq.data.RunData;
-import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.migration.MigrationModel;
-import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
 
 /**
@@ -21,7 +20,7 @@ import uk.co.samholder.genetiq.termination.TerminationCondition;
  *
  * @author Sam Holder
  */
-public class MultiDemePopulationModel<I extends Object> extends AbstractPopulationModel<I> {
+public class MultiDemePopulationModel<I> extends AbstractPopulationModel<I> {
 
     // The populations at the end of the last round.
     public static final String KEY_POPULATIONS = "MultiDemePopulationModel_populations";
@@ -32,8 +31,7 @@ public class MultiDemePopulationModel<I extends Object> extends AbstractPopulati
 
     private final MigrationModel<I> migrationModel;
     private final List<Population<I>> populationPool = new ArrayList<>();
-    private final int populationUnitSize;
-    private final Populator<I> populator;
+    private final int numDemes;
     
     /**
      *
@@ -44,18 +42,17 @@ public class MultiDemePopulationModel<I extends Object> extends AbstractPopulati
      * @param numDemes number of demes
      * @param populator populator
      */
-    public MultiDemePopulationModel(MigrationModel<I> migrationModel, FitnessFunction<I> fitnessFunction, Selector<I> selector, int populationSize, int numDemes, Populator<I> populator) {
+    public MultiDemePopulationModel(MigrationModel<I> migrationModel, int numDemes) {
         this.migrationModel = migrationModel;
-        this.populationUnitSize = populationSize;
-        for (int i = 0; i < numDemes; i++) {
-            populationPool.add(new Population<>(fitnessFunction, selector, populationSize));
-        }
-        this.populator = populator;
+        this.numDemes = numDemes;
     }
 
     @Override
-    public int getPopulationUnitSize() {
-        return populationUnitSize;
+    public void Initialise(Supplier<Population<I>> populationSupplier, Populator<I> populator) {
+        for (int i = 0; i < numDemes; i++) {
+            populationPool.add(populationSupplier.get());
+        }
+        SeedPopulations(populator);
     }
 
     @Override
@@ -101,11 +98,6 @@ public class MultiDemePopulationModel<I extends Object> extends AbstractPopulati
         runData.set(KEY_OPTIMUM, bestIndividual);
     }
 
-    @Override
-    public Populator<I> getPopulator() {
-        return populator;
-    }
-    
     
 
 }

@@ -44,11 +44,31 @@ public class AStringExample extends GeneticAlgorithmConfiguration<String> {
     private static final int POPULATION_SIZE = 400;
     private static final Random RANDOM = new Random();
 
+    @Override
+    protected FitnessFunction<String> fitnessFunction() {
     // Fitness function - counts the number types 'a' occurs in a string.
-    private final FitnessFunction<String> matchFitness = (individual, population) -> {
-        return individual.chars().filter(value -> value == (int) 'a').count();
-    };
+        return (individual, population) -> {
+            return individual.chars().filter(value -> value == (int) 'a').count();
+        };
+    }
 
+    @Override
+    protected Selector<String> selector() {
+        // Use 1 vs. 1 tournament selection.
+        return new TournamentSelector<>(2);
+    }
+
+    @Override
+    protected Populator<String> populator() {
+        // Seed the initial population with random strings.
+        return new RandomStringPopulator(RANDOM, STRING_LENGTH);
+    }
+
+    @Override
+    public int populationSize() {
+        return POPULATION_SIZE;
+    }
+    
     @Override
     protected VariationPipeline<String> variationPipeline() {
         VariationPipeline<String> variationPipeline = new VariationPipeline<>(RANDOM);
@@ -61,21 +81,11 @@ public class AStringExample extends GeneticAlgorithmConfiguration<String> {
     protected RoundStrategy<String> roundStrategy() {
         return new GenerationalRoundStrategy();
     }
-
+    
     @Override
     protected PopulationModel<String> populationModel() {
-        // Use 1 vs. 1 tournament selection.
-        Selector<String> selector = new TournamentSelector<>(2);
-        // Seed the initial population with random strings.
-        Populator<String> populator = new RandomStringPopulator(RANDOM, STRING_LENGTH);
-        
-        return new SinglePopulationModel<>
-        (
-            matchFitness, 
-            selector,
-            POPULATION_SIZE, 
-            populator
-        );
+        // Use a single population.
+        return new SinglePopulationModel<>();
     }
 
     @Override

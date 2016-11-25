@@ -6,11 +6,16 @@
 package uk.co.samholder.genetiq.runner.genetic;
 
 import java.util.List;
+import java.util.function.Supplier;
 import uk.co.samholder.genetiq.data.RunData;
+import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.interactor.Interactor;
+import uk.co.samholder.genetiq.population.ListPopulation;
 import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.population.PopulationModel;
+import uk.co.samholder.genetiq.population.Populator;
 import uk.co.samholder.genetiq.round.RoundStrategy;
+import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
 import uk.co.samholder.genetiq.variation.StandardVariationEngine;
 import uk.co.samholder.genetiq.variation.VariationEngine;
@@ -29,10 +34,10 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
      * @param roundStrategy round strategy
      * @param variationEngine variation engine
      */
-    protected void PerformRound(PopulationModel<I> populationModel, RoundStrategy<I> roundStrategy, VariationEngine<I> variationEngine) {
+    protected void PerformRound(PopulationModel<I> populationModel, RoundStrategy<I> roundStrategy, VariationEngine<I> variationEngine, Selector<I> selector) {
         // Within each of the model's populations, perform the round.
         for (Population<I> population : populationModel) {
-            roundStrategy.performRound(population, variationEngine);
+            roundStrategy.performRound(population, variationEngine, selector);
         }
     }
     
@@ -42,21 +47,29 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
         PopulationModel<I> populationModel = pipeline.populationModel();
         VariationEngine<I> variationEngine = new StandardVariationEngine<>(pipeline.variationPipeline());
         TerminationCondition<I> terminationCondition = pipeline.terminationCondition();
+        Populator<I> populator = pipeline.populator();
         List<Interactor> interactors = pipeline.interactors();
+        FitnessFunction<I> fitnessFunction = pipeline.fitnessFunction();
+        Selector<I> selector = pipeline.selector();
+        int inidividualsPerPopulation = pipeline.populationSize();
         // Create the run data.
         RunData data = new RunData();
         
         data.set(GeneticAlgorithmEngine.KEY_PERIOD_TYPE, roundStrategy.getPeriodType());
         
         // Generate the initial population.
-        populationModel.seedIndividuals();
+        Supplier<Population<I>> populationSource = () -> new ListPopulation<>(inidividualsPerPopulation, fitnessFunction, 0);
+        populationModel.Initialise(
+            populationSource,
+            populator
+        );
         populationModel.writeData(data);
 
         int iteration = 0;
         // Run the loop until termination condition is met.
         while (!populationModel.isConditionMet(terminationCondition, iteration)) {
             populationModel.preRound(data);
-            PerformRound(populationModel, roundStrategy, variationEngine);
+            PerformRound(populationModel, roundStrategy, variationEngine, selector);
             populationModel.postRound(data);
             populationModel.writeData(data);
             // Set and increase the iteration.
@@ -68,7 +81,6 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
         return data;
     }
     
-
     /**
      * Run all interactors.
      * @param runData run data

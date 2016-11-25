@@ -2,12 +2,15 @@
 package uk.co.samholder.genetiq.runner.genetic;
 
 import java.util.List;
+import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.population.PopulationModel;
+import uk.co.samholder.genetiq.population.Populator;
 import uk.co.samholder.genetiq.round.RoundStrategy;
+import uk.co.samholder.genetiq.runner.generic.AlgorithmConfiguration;
+import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
 import uk.co.samholder.genetiq.variation.VariationPipeline;
-import uk.co.samholder.genetiq.runner.generic.AlgorithmConfiguration;
 
 /**
  * Stores contextual information for a algorithm configuration.
@@ -15,6 +18,30 @@ import uk.co.samholder.genetiq.runner.generic.AlgorithmConfiguration;
  */
 public abstract class GeneticAlgorithmConfiguration<I> implements AlgorithmConfiguration {
 
+    /**
+     * The number of individuals per population.
+     * @return number of individuals
+     */
+    public abstract int populationSize();
+    
+    /**
+     * The selection strategy used for to sample individuals.
+     * @return selection strategy
+     */
+    protected abstract Selector<I> selector();
+    
+    /**
+     * Implements the fitness function which defines individual fitness values.
+     * @return fitness function
+     */
+    protected abstract FitnessFunction<I> fitnessFunction();
+    
+    /**
+     * Implements the populator which seeds the initial populations.
+     * @return populator
+     */
+    protected abstract Populator<I> populator();
+    
     /**
      * Implements the round strategy, which defines how rounds are handled.
      * Usually set to a generational or steady state strategy.

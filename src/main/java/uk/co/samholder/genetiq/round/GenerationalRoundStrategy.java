@@ -11,6 +11,7 @@ import uk.co.samholder.genetiq.data.Period;
 import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.population.PopulationSampler;
+import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
@@ -32,8 +33,8 @@ public class GenerationalRoundStrategy<I> implements RoundStrategy<I> {
     }
 
     @Override
-    public void performRound(Population<I> population, VariationEngine<I> variationEngine) {
-        PopulationSampler<I> sampler = population.CreateSampler(population.getSelector());
+    public void performRound(Population<I> population, VariationEngine<I> variationEngine, Selector<I> selector) {
+        PopulationSampler<I> sampler = population.CreateSampler(selector);
         // Clone the population.
         List<I> newPopulation = new ArrayList<>();
         // Take most elite individuals first.

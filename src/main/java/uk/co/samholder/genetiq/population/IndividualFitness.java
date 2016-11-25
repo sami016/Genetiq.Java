@@ -9,7 +9,7 @@ package uk.co.samholder.genetiq.population;
  * Data structure for storing an individual and their fitness.
  * @author sam
  */
-public class IndividualFitness<I extends Object> implements Comparable<IndividualFitness> {
+public class IndividualFitness<I> implements Comparable<IndividualFitness> {
 
     private final I individual;
     private final double fitness;

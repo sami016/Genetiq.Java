@@ -8,9 +8,8 @@ package uk.co.samholder.genetiq.population;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.function.Supplier;
 import uk.co.samholder.genetiq.data.RunData;
-import uk.co.samholder.genetiq.fitness.FitnessFunction;
-import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
 
 /**
@@ -25,25 +24,12 @@ public class SinglePopulationModel<I> extends AbstractPopulationModel<I> {
     // The optimum individual fitness combination at the end of the last round.
     public static final String KEY_OPTIMUM = "SinglePopulationModel_optimum";
 
-    private final Population<I> population;
-    private final Populator<I> populator;
-    private final int populationSize;
-
-    /**
-     * @param fitnessFunction fitness function
-     * @param selector primary selector
-     * @param popSize population size
-     * @param populator populator
-     */
-    public SinglePopulationModel(FitnessFunction<I> fitnessFunction, Selector<I> selector, int popSize, Populator<I> populator) {
-        this.population = new Population(fitnessFunction, selector, popSize);
-        this.populationSize = popSize;
-        this.populator = populator;
-    }
+    private Population<I> population;
 
     @Override
-    public int getPopulationUnitSize() {
-        return populationSize;
+    public void Initialise(Supplier<Population<I>> populationSupplier, Populator<I> populator) {
+        population = populationSupplier.get();
+        SeedPopulations(populator);
     }
 
     @Override
@@ -73,11 +59,4 @@ public class SinglePopulationModel<I> extends AbstractPopulationModel<I> {
     public void postRound(RunData runData) {
     }
     
-    
-
-    @Override
-    public Populator<I> getPopulator() {
-        return populator;
-    }
-
 }

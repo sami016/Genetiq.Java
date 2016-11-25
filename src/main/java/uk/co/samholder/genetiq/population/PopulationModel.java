@@ -1,5 +1,6 @@
 package uk.co.samholder.genetiq.population;
 
+import java.util.function.Supplier;
 import uk.co.samholder.genetiq.data.RunData;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
 
@@ -11,13 +12,6 @@ import uk.co.samholder.genetiq.termination.TerminationCondition;
 public interface PopulationModel<I extends Object> extends Iterable<Population<I>> {
 
     /**
-     * Gets the size of each population unit.
-     *
-     * @return population unit size
-     */
-    int getPopulationUnitSize();
-
-    /**
      * Checks whether a termination condition is met at a given iteration.
      *
      * @param termintionCondition the termination condition
@@ -25,17 +19,15 @@ public interface PopulationModel<I extends Object> extends Iterable<Population<I
      * @return is termination condition satisfied
      */
     boolean isConditionMet(TerminationCondition<I> termintionCondition, int iteration);
-
-    /**
-     * Gets the populator for seeding populations upon initialisation.
-     * @return populator
-     */
-    Populator<I> getPopulator();
     
     /**
      * Seeds individuals within populations upon initialisation.
+     * @param populationSupplier population supplier
+     * @param fitnessFunction fitness function
+     * @param selector selector
+     * @param populator populator
      */
-    void seedIndividuals();
+    void Initialise(Supplier<Population<I>> populationSupplier, Populator<I> populator);
     
     /**
      * Runs before each round of the algorithm.

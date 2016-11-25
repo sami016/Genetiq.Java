@@ -2,6 +2,7 @@ package uk.co.samholder.genetiq.round;
 
 import uk.co.samholder.genetiq.data.Period;
 import uk.co.samholder.genetiq.population.Population;
+import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
@@ -16,7 +17,7 @@ public interface RoundStrategy<I extends Object> {
      * Performs the round.
      * @param population 
      */
-    public void performRound(Population<I> population, VariationEngine<I> variationEngine);
+    public void performRound(Population<I> population, VariationEngine<I> variationEngine, Selector<I> selector);
 
     /**
      * Gets the period type of the round.
