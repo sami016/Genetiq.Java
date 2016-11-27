@@ -25,7 +25,7 @@ public class SteadyStateRoundStrategy<I> implements RoundStrategy<I> {
 
     @Override
     public void performRound(Population<I> population, VariationEngine<I> variationEngine, Selector<I> selector) {
-        PopulationSampler<I> sampler = population.CreateSampler(selector);
+        PopulationSampler<I> sampler = population.createSampler(selector);
         // mutate the result.
         I child = variationEngine.createChild(sampler);
         // Select the individual to replace.

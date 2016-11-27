@@ -11,6 +11,9 @@ public class Vector {
     private final float[] values;
     
     public Vector(int dimensions) {
+        if (dimensions < 1){
+            throw new IllegalArgumentException("dimensions < 1");
+        }
         values = new float[dimensions];
     }
     
@@ -60,6 +63,20 @@ public class Vector {
      */
     public int getDimensions() {
         return values.length;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("(");
+        sb.append(values[0]);
+        for (int i=1; i<values.length; i++) {
+            sb.append(", ");
+            sb.append(values[i]);
+        }
+        sb.append(")");
+        
+        return sb.toString();
     }
 
     @Override

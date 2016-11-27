@@ -6,6 +6,7 @@ import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.runner.genetic.SequentialGeneticAlgorithmEngine;
+import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.variation.VariationEngine;
 
 /**
@@ -23,10 +24,10 @@ public class ParallelPopulationGeneticAlgorithmEngine<I> extends SequentialGenet
     }
 
     @Override
-    protected void PerformRound(PopulationModel<I> populationModel, RoundStrategy<I> roundStrategy, VariationEngine<I> variationEngine) {
+    protected void PerformRound(PopulationModel<I> populationModel, RoundStrategy<I> roundStrategy, VariationEngine<I> variationEngine, Selector<I> selector) {
         MultiplexLock lock = new MultiplexLock();
         for (Population<I> pop : populationModel) {
-            startPopulationTask(pop, roundStrategy, variationEngine, lock);
+            startPopulationTask(pop, roundStrategy, variationEngine, selector, lock);
         }
         lock.awaitCompletion();
     }
@@ -38,10 +39,10 @@ public class ParallelPopulationGeneticAlgorithmEngine<I> extends SequentialGenet
      * @param variationEngine variation engine
      * @param lock multiplex lock
      */
-    private void startPopulationTask(Population<I> population, RoundStrategy<I> roundStrategy, VariationEngine<I> variationEngine, MultiplexLock lock) {
+    private void startPopulationTask(Population<I> population, RoundStrategy<I> roundStrategy, VariationEngine<I> variationEngine, Selector<I> selector, MultiplexLock lock) {
         lock.beginTask();
         executor.execute(() -> {
-            roundStrategy.performRound(population, variationEngine);
+            roundStrategy.performRound(population, variationEngine, selector);
             lock.completeTask();
         });
     }

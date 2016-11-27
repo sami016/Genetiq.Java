@@ -61,30 +61,6 @@ public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
         System.out.println("Palindrome check passed: " + result.equals(reverse));
     }
 
-    private static final FitnessFunction<String> matchFitness = (individual, population) -> {
-        double score = 0;
-        int length = individual.length();
-        // Iterate over each character.
-        for (int i = 0; i < length; i++) {
-            char atPos = individual.charAt(i);
-            // Favour letters to speed up the search process.
-            if ((atPos >= 'a' && atPos <= 'z')) {
-                score += 0.5;
-            }
-            // Point per matching pair per letter.
-            if (atPos == individual.charAt(length - 1 - i)) {
-                if ((atPos >= 'a' && atPos <= 'z')) {
-                    score += 1.0;
-                }
-            }
-        }
-        // Limit inidividual length to 20, else fitness drops off.
-        if (length > MAX_LENGTH) {
-            score = 0;
-        }
-        return score;
-    };
-
     @Override
     protected VariationPipeline<String> variationPipeline() {
         VariationPipeline<String> variationPipeline = new VariationPipeline<>(RANDOM);
@@ -95,8 +71,48 @@ public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
         return variationPipeline;
     }
 
-    
-    
+    @Override
+    protected FitnessFunction<String> fitnessFunction() {
+        return (individual, population) -> {
+            double score = 0;
+            int length = individual.length();
+            // Iterate over each character.
+            for (int i = 0; i < length; i++) {
+                char atPos = individual.charAt(i);
+                // Favour letters to speed up the search process.
+                if ((atPos >= 'a' && atPos <= 'z')) {
+                    score += 0.5;
+                }
+                // Point per matching pair per letter.
+                if (atPos == individual.charAt(length - 1 - i)) {
+                    if ((atPos >= 'a' && atPos <= 'z')) {
+                        score += 1.0;
+                    }
+                }
+            }
+            // Limit inidividual length to 20, else fitness drops off.
+            if (length > MAX_LENGTH) {
+                score = 0;
+            }
+            return score;
+        };
+    }
+
+    @Override
+    protected Selector<String> selector() {
+        return new FitnessProportionateSelector<String>(RANDOM, true, (a) -> Math.pow(a, 2));
+    }
+
+    @Override
+    protected Populator<String> populator() {
+        return new RandomStringPopulator(RANDOM, INITIAL_LENGTH);
+    }
+
+    @Override
+    public int populationSize() {
+        return POPULATION_SIZE;
+    }
+
     @Override
     protected RoundStrategy<String> roundStrategy() {
         return new GenerationalRoundStrategy();
@@ -104,9 +120,7 @@ public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
 
     @Override
     protected PopulationModel<String> populationModel() {
-        Populator<String> populator = new RandomStringPopulator(RANDOM, INITIAL_LENGTH);
-        Selector<String> selector = new FitnessProportionateSelector<String>(RANDOM, true, (a) -> Math.pow(a, 2));
-        return new SinglePopulationModel<>(matchFitness, selector, POPULATION_SIZE, populator);
+        return new SinglePopulationModel<>();
     }
 
     @Override

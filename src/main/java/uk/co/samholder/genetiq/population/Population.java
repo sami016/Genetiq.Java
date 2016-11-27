@@ -138,5 +138,5 @@ public interface Population<I> extends Iterable<IndividualFitness<I>> {
      * @param selector selector to use for sampling
      * @return population sampler using selector
      */
-    public PopulationSampler<I> CreateSampler(Selector<I> selector);
+    public PopulationSampler<I> createSampler(Selector<I> selector);
 }

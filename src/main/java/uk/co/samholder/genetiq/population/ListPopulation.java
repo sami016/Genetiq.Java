@@ -197,7 +197,7 @@ public class ListPopulation<I> implements Population<I> {
     }
     
     @Override
-    public PopulationSampler<I> CreateSampler(Selector<I> selector) {
+    public PopulationSampler<I> createSampler(Selector<I> selector) {
         return new StandardPopulationSampler<>(this, selector);
     }
 }

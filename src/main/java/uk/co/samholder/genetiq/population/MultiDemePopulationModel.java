@@ -29,18 +29,13 @@ public class MultiDemePopulationModel<I> extends AbstractPopulationModel<I> {
     // The optimum individual fitness combination for each population at the end of the last round.
     public static final String KEY_OPTIMA = "MultiDemePopulationModel_optima";
 
-    private final MigrationModel<I> migrationModel;
     private final List<Population<I>> populationPool = new ArrayList<>();
+    private final MigrationModel<I> migrationModel;
     private final int numDemes;
     
     /**
-     *
      * @param migrationModel migration model
-     * @param fitnessFunction fitness function
-     * @param selector primary selector
-     * @param populationSize population size
      * @param numDemes number of demes
-     * @param populator populator
      */
     public MultiDemePopulationModel(MigrationModel<I> migrationModel, int numDemes) {
         this.migrationModel = migrationModel;

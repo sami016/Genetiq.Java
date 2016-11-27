@@ -34,7 +34,7 @@ public class GenerationalRoundStrategy<I> implements RoundStrategy<I> {
 
     @Override
     public void performRound(Population<I> population, VariationEngine<I> variationEngine, Selector<I> selector) {
-        PopulationSampler<I> sampler = population.CreateSampler(selector);
+        PopulationSampler<I> sampler = population.createSampler(selector);
         // Clone the population.
         List<I> newPopulation = new ArrayList<>();
         // Take most elite individuals first.
