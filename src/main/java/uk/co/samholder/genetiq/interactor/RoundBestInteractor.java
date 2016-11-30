@@ -15,20 +15,18 @@ import uk.co.samholder.genetiq.population.IndividualFitness;
  */
 public class RoundBestInteractor implements Interactor {
 
-    private final String bestIndividualKey;
     private final int roundFactorFilter;
     private final PrintStream out;
 
-    public RoundBestInteractor(String bestIndividualKey) {
-        this(bestIndividualKey, 1);
+    public RoundBestInteractor() {
+        this(1);
     }
 
-    public RoundBestInteractor(String bestIndividualKey, int roundFactorFilter) {
-        this(bestIndividualKey, roundFactorFilter, System.out);
+    public RoundBestInteractor(int roundFactorFilter) {
+        this(roundFactorFilter, System.out);
     }
 
-    public RoundBestInteractor(String bestIndividualKey, int roundFactorFilter, PrintStream out) {
-        this.bestIndividualKey = bestIndividualKey;
+    public RoundBestInteractor(int roundFactorFilter, PrintStream out) {
         this.out = out;
         this.roundFactorFilter = roundFactorFilter;
     }

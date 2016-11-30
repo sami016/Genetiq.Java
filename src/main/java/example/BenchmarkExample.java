@@ -7,7 +7,9 @@ import uk.co.samholder.genetiq.benchmark.SphereBenchmark;
 import uk.co.samholder.genetiq.data.ResultState;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.interactor.Interactor;
+import uk.co.samholder.genetiq.interactor.RoundBestInteractor;
 import uk.co.samholder.genetiq.migration.UniformMigrationModel;
+import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.MultiDemePopulationModel;
 import uk.co.samholder.genetiq.population.PopulationModel;
 import uk.co.samholder.genetiq.population.Populator;
@@ -43,16 +45,19 @@ public class BenchmarkExample extends GeneticAlgorithmConfiguration<Vector> {
     
     
     public static void main(String[] args) {
+        
+        
         // Run the algorithm.
         GeneticAlgorithmConfiguration<Vector> pipeline = new BenchmarkExample();
+
                 //new BenchmarkExample();
         GeneticAlgorithmEngine<Vector> engine = new SequentialGeneticAlgorithmEngine<>();
         ResultState data = engine.executePipeline(pipeline);
         // Get the best all time result from the algorithm.
-        //IndividualFitness<Vector> ind = data.get(MemoriseBestInteractor.BEST_INDIVIDUAL_FITNESS);
+        IndividualFitness<Vector> ind = data.getBestIndividual();
         // Check whether palidrome property holds. Print details.
-        //Vector result = ind.getIndividual();
-        //System.out.println("best fitness: " + ind.getFitness() + " individual: " + result );
+        Vector result = ind.getIndividual();
+        System.out.println("best fitness: " + ind.getFitness() + " individual: " + result );
     }
     
     @Override
@@ -76,7 +81,7 @@ public class BenchmarkExample extends GeneticAlgorithmConfiguration<Vector> {
 
     @Override
     protected VariationPipeline<Vector> variationPipeline() {
-        VariationPipeline<Vector> variationPipeline = new VariationPipeline<Vector>(RANDOM);
+        VariationPipeline<Vector> variationPipeline = new VariationPipeline<>(RANDOM);
         variationPipeline.setCombiner(new UniformVectorCrossover(RANDOM));
         variationPipeline.addMutator(new OffsetVectorMutator(RANDOM, 1f / (float)DIMENSIONALITY, DIMENSIONALITY, 0.01f));
         return variationPipeline;
@@ -85,6 +90,7 @@ public class BenchmarkExample extends GeneticAlgorithmConfiguration<Vector> {
     @Override
     protected List<Interactor> interactors() {
         List<Interactor> interactors = new ArrayList<>();
+        interactors.add(new RoundBestInteractor(100));
         return interactors;
     }
 
@@ -105,7 +111,7 @@ public class BenchmarkExample extends GeneticAlgorithmConfiguration<Vector> {
 
     @Override
     protected Populator<Vector> populator() {
-        return new RandomVectorPopulator(RANDOM, DIMENSIONALITY, -10f, 10f);
+        return new RandomVectorPopulator(RANDOM, DIMENSIONALITY, 100f, 1000f);
     }
     
 }

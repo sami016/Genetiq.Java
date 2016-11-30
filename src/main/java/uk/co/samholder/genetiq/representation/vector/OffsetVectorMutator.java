@@ -37,7 +37,8 @@ public class OffsetVectorMutator implements Mutator<Vector> {
         Vector mutant = new Vector(individual);
         for (int i=0; i<mutant.getDimensions(); i++) {
             if (random.nextFloat() < lociOffsetProbablity) {
-                mutant.setValue(i, mutant.getValue(i) + getMaximumOffset(i) * random.nextFloat());
+                float sign = random.nextBoolean() ? 1 : -1;
+                mutant.setValue(i, mutant.getValue(i) + sign * getMaximumOffset(i) * random.nextFloat());
             }
         }
         return mutant;

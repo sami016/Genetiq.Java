@@ -130,7 +130,7 @@ public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
     @Override
     protected List<Interactor> interactors() {
         List<Interactor> interactors = new ArrayList<>();
-        interactors.add(new RoundBestInteractor(SinglePopulationModel.KEY_OPTIMUM, 100));
+        interactors.add(new RoundBestInteractor(100));
         return interactors;
     }
 

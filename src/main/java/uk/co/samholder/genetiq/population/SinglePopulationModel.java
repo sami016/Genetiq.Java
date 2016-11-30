@@ -19,11 +19,6 @@ import uk.co.samholder.genetiq.termination.TerminationCondition;
  */
 public class SinglePopulationModel<I> extends AbstractPopulationModel<I> {
 
-    // The population at the end of the last round.
-    public static final String KEY_POPULATION = "SinglePopulationModel_population";
-    // The optimum individual fitness combination at the end of the last round.
-    public static final String KEY_OPTIMUM = "SinglePopulationModel_optimum";
-
     private Population<I> population;
 
     @Override

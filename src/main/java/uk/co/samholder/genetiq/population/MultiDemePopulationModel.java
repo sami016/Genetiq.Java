@@ -79,7 +79,7 @@ public class MultiDemePopulationModel<I> extends AbstractPopulationModel<I> {
         runData.setPopulations(populationPool);
         // Get the best individuals.
         IndividualFitness<I> bestIndividual = null;
-        double bestScore = Double.MIN_VALUE;
+        double bestScore = Double.NEGATIVE_INFINITY;
         for (Population<I> population : populationPool) {
             IndividualFitness<I> individualFitness = population.getBestIndividual();
             if (individualFitness.getFitness() > bestScore) {
