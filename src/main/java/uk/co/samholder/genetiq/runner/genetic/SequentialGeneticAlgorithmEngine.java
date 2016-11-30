@@ -7,7 +7,7 @@ package uk.co.samholder.genetiq.runner.genetic;
 
 import java.util.List;
 import java.util.function.Supplier;
-import uk.co.samholder.genetiq.data.RunData;
+import uk.co.samholder.genetiq.data.ResultState;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.population.ListPopulation;
@@ -42,7 +42,7 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
     }
     
     @Override
-    public RunData executePipeline(GeneticAlgorithmConfiguration<I> pipeline) {
+    public ResultState executePipeline(GeneticAlgorithmConfiguration<I> pipeline) {
         RoundStrategy<I> roundStrategy = pipeline.roundStrategy();
         PopulationModel<I> populationModel = pipeline.populationModel();
         VariationEngine<I> variationEngine = new StandardVariationEngine<>(pipeline.variationPipeline());
@@ -53,9 +53,8 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
         Selector<I> selector = pipeline.selector();
         int inidividualsPerPopulation = pipeline.populationSize();
         // Create the run data.
-        RunData data = new RunData();
-        
-        data.set(GeneticAlgorithmEngine.KEY_PERIOD_TYPE, roundStrategy.getPeriodType());
+        ResultState data = new ResultState();
+        data.setPeriod(roundStrategy.getPeriodType());
         
         // Generate the initial population.
         Supplier<Population<I>> populationSource = () -> new ListPopulation<>(inidividualsPerPopulation, fitnessFunction, 0);
@@ -74,7 +73,7 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
             populationModel.writeData(data);
             // Set and increase the iteration.
             iteration++;
-            data.set(GeneticAlgorithmEngine.KEY_PERIOD_NUMBER, iteration);
+            data.setRound(iteration);
             // Prompt external interactions.
             doInteractions(data, interactors);
         }
@@ -86,7 +85,7 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
      * @param runData run data
      * @param interactors interactions list
      */
-    private void doInteractions(RunData runData, List<Interactor> interactors) {
+    private void doInteractions(ResultState runData, List<Interactor> interactors) {
         for (Interactor interactor : interactors) {
             interactor.interact(runData);
         }

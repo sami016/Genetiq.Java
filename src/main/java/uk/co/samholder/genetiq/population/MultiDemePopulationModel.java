@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
-import uk.co.samholder.genetiq.data.RunData;
+import uk.co.samholder.genetiq.data.ResultState;
 import uk.co.samholder.genetiq.migration.MigrationModel;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
 
@@ -51,12 +51,12 @@ public class MultiDemePopulationModel<I> extends AbstractPopulationModel<I> {
     }
 
     @Override
-    public void preRound(RunData runData) {
+    public void preRound(ResultState runData) {
         // No behaviour.
     }
 
     @Override
-    public void postRound(RunData runData) {
+    public void postRound(ResultState runData) {
         migrationModel.performMigration(this);
     }
 
@@ -75,22 +75,19 @@ public class MultiDemePopulationModel<I> extends AbstractPopulationModel<I> {
     }
 
     @Override
-    public void writeData(RunData runData) {
-        runData.set(KEY_POPULATIONS, populationPool);
+    public void writeData(ResultState<I> runData) {
+        runData.setPopulations(populationPool);
         // Get the best individuals.
-        List<IndividualFitness<I>> bestIndividuals = new ArrayList<>();
         IndividualFitness<I> bestIndividual = null;
         double bestScore = Double.MIN_VALUE;
         for (Population<I> population : populationPool) {
             IndividualFitness<I> individualFitness = population.getBestIndividual();
-            bestIndividuals.add(individualFitness);
             if (individualFitness.getFitness() > bestScore) {
                 bestScore = individualFitness.getFitness();
                 bestIndividual = individualFitness;
             }
         }
-        runData.set(KEY_OPTIMA, bestIndividuals);
-        runData.set(KEY_OPTIMUM, bestIndividual);
+        runData.setBestIndividual(bestIndividual);
     }
 
     

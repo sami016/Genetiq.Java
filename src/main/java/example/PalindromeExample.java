@@ -8,10 +8,9 @@ package example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import uk.co.samholder.genetiq.data.RunData;
+import uk.co.samholder.genetiq.data.ResultState;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.interactor.Interactor;
-import uk.co.samholder.genetiq.interactor.MemoriseBestInteractor;
 import uk.co.samholder.genetiq.interactor.RoundBestInteractor;
 import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.PopulationModel;
@@ -40,7 +39,7 @@ import uk.co.samholder.genetiq.variation.VariationPipeline;
 public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
 
     // Configuration.
-    private static final int POPULATION_SIZE = 100;
+    private static final int POPULATION_SIZE = 50;
     private static final int ROUND_LIMIT = 10000;
     private static final int INITIAL_LENGTH = 5;
     private static final int MAX_LENGTH = 15;
@@ -51,9 +50,9 @@ public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
         // Run the algorithm.
         GeneticAlgorithmConfiguration<String> pipeline = new PalindromeExample();
         GeneticAlgorithmEngine<String> engine = new SequentialGeneticAlgorithmEngine<>();
-        RunData data = engine.executePipeline(pipeline);
+        ResultState data = engine.executePipeline(pipeline);
         // Get the best all time result from the algorithm.
-        IndividualFitness<String> ind = data.get(MemoriseBestInteractor.BEST_INDIVIDUAL_FITNESS);
+        IndividualFitness<String> ind = data.getBestIndividual();
         // Check whether palidrome property holds. Print details.
         String result = ind.getIndividual();
         String reverse = reverseString(result);
@@ -132,7 +131,6 @@ public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
     protected List<Interactor> interactors() {
         List<Interactor> interactors = new ArrayList<>();
         interactors.add(new RoundBestInteractor(SinglePopulationModel.KEY_OPTIMUM, 100));
-        interactors.add(new MemoriseBestInteractor(SinglePopulationModel.KEY_OPTIMUM));
         return interactors;
     }
 

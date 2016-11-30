@@ -1,7 +1,7 @@
 package uk.co.samholder.genetiq.population;
 
 import java.util.function.Supplier;
-import uk.co.samholder.genetiq.data.RunData;
+import uk.co.samholder.genetiq.data.ResultState;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
 
 /**
@@ -33,13 +33,13 @@ public interface PopulationModel<I extends Object> extends Iterable<Population<I
      * Runs before each round of the algorithm.
      * @param runData run data
      */
-    void preRound(RunData runData);
+    void preRound(ResultState<I> runData);
     
     /**
      * Runs after each round of the algorithm.
      * @param runData run data
      */
-    void postRound(RunData runData);
+    void postRound(ResultState<I> runData);
 
     /**
      * Writes out observation data to the run data context.
@@ -47,6 +47,6 @@ public interface PopulationModel<I extends Object> extends Iterable<Population<I
      *
      * @param runData run data context
      */
-    void writeData(RunData runData);
+    void writeData(ResultState<I> runData);
     
 }

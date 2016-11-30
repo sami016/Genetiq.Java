@@ -6,9 +6,8 @@
 package uk.co.samholder.genetiq.interactor;
 
 import java.io.PrintStream;
-import uk.co.samholder.genetiq.data.RunData;
+import uk.co.samholder.genetiq.data.ResultState;
 import uk.co.samholder.genetiq.population.IndividualFitness;
-import uk.co.samholder.genetiq.runner.genetic.SequentialGeneticAlgorithmEngine;
 
 /**
  *
@@ -35,13 +34,13 @@ public class RoundBestInteractor implements Interactor {
     }
 
     @Override
-    public void interact(RunData observed) {
-        int roundNumber = observed.get(SequentialGeneticAlgorithmEngine.KEY_PERIOD_NUMBER);
+    public void interact(ResultState observed) {
+        long roundNumber = observed.getRound();
         if (roundNumber % roundFactorFilter != 0) {
             return;
         }
 
-        IndividualFitness<?> individualFitness = observed.get(bestIndividualKey);
+        IndividualFitness<?> individualFitness = observed.getBestIndividual();
         StringBuilder builder = new StringBuilder();
         builder.append("round ");
         builder.append(roundNumber);

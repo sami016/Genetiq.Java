@@ -8,10 +8,9 @@ package example;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import uk.co.samholder.genetiq.data.RunData;
+import uk.co.samholder.genetiq.data.ResultState;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.interactor.Interactor;
-import uk.co.samholder.genetiq.interactor.MemoriseBestInteractor;
 import uk.co.samholder.genetiq.interactor.RoundBestInteractor;
 import uk.co.samholder.genetiq.population.IndividualFitness;
 import uk.co.samholder.genetiq.population.PopulationModel;
@@ -97,16 +96,15 @@ public class AStringExample extends GeneticAlgorithmConfiguration<String> {
     protected List<Interactor> interactors() {
         List<Interactor> interactors = new ArrayList<>();
         interactors.add(new RoundBestInteractor(SinglePopulationModel.KEY_OPTIMUM, 100));
-        interactors.add(new MemoriseBestInteractor(SinglePopulationModel.KEY_OPTIMUM));
         return interactors;
     }
 
     public static void main(String[] args) {
         GeneticAlgorithmConfiguration<String> pipeline = new AStringExample();
         GeneticAlgorithmEngine<String> engine = new SequentialGeneticAlgorithmEngine<>();
-        RunData data = engine.executePipeline(pipeline);
+        ResultState data = engine.executePipeline(pipeline);
         // Get the best all time result from the algorithm.
-        IndividualFitness<String> ind = data.get(MemoriseBestInteractor.BEST_INDIVIDUAL_FITNESS);
+        IndividualFitness<String> ind = data.getBestIndividual();
         // Check whether palidrome property holds. Print details.
         String result = ind.getIndividual();
         System.out.println("best fitness: " + ind.getFitness() + " individual: " + result + " length: " + result.length());

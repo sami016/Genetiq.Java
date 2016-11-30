@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Supplier;
-import uk.co.samholder.genetiq.data.RunData;
+import uk.co.samholder.genetiq.data.ResultState;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
 
 /**
@@ -40,9 +40,11 @@ public class SinglePopulationModel<I> extends AbstractPopulationModel<I> {
     }
 
     @Override
-    public void writeData(RunData runData) {
-        runData.set(KEY_POPULATION, population);
-        runData.set(KEY_OPTIMUM, population.getBestIndividual());
+    public void writeData(ResultState<I> runData) {
+        List<Population<I>> populationList = new ArrayList<>();
+        populationList.add(population);
+        runData.setPopulations(populationList);
+        runData.setBestIndividual(population.getBestIndividual());
     }
 
     @Override
@@ -51,12 +53,12 @@ public class SinglePopulationModel<I> extends AbstractPopulationModel<I> {
     }
 
     @Override
-    public void preRound(RunData runData) {
+    public void preRound(ResultState runData) {
     }
     
 
     @Override
-    public void postRound(RunData runData) {
+    public void postRound(ResultState runData) {
     }
     
 }

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import uk.co.samholder.genetiq.benchmark.SphereBenchmark;
-import uk.co.samholder.genetiq.data.RunData;
+import uk.co.samholder.genetiq.data.ResultState;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
 import uk.co.samholder.genetiq.interactor.Interactor;
 import uk.co.samholder.genetiq.migration.UniformMigrationModel;
@@ -47,7 +47,7 @@ public class BenchmarkExample extends GeneticAlgorithmConfiguration<Vector> {
         GeneticAlgorithmConfiguration<Vector> pipeline = new BenchmarkExample();
                 //new BenchmarkExample();
         GeneticAlgorithmEngine<Vector> engine = new SequentialGeneticAlgorithmEngine<>();
-        RunData data = engine.executePipeline(pipeline);
+        ResultState data = engine.executePipeline(pipeline);
         // Get the best all time result from the algorithm.
         //IndividualFitness<Vector> ind = data.get(MemoriseBestInteractor.BEST_INDIVIDUAL_FITNESS);
         // Check whether palidrome property holds. Print details.

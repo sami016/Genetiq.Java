@@ -1,7 +1,7 @@
 
 package uk.co.samholder.genetiq.runner.generic;
 
-import uk.co.samholder.genetiq.data.RunData;
+import uk.co.samholder.genetiq.data.ResultState;
 
 /**
  * Engine for executing pipeline for general algorithms.
@@ -9,6 +9,6 @@ import uk.co.samholder.genetiq.data.RunData;
  */
 public interface ExecutionEngine<TPipeline extends AlgorithmConfiguration> {
     
-    public RunData executePipeline(TPipeline pipeline);
+    public ResultState executePipeline(TPipeline pipeline);
     
 }
