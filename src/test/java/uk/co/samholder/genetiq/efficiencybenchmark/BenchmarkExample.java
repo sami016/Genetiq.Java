@@ -1,8 +1,9 @@
-package example;
+package uk.co.samholder.genetiq.efficiencybenchmark;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import org.junit.Test;
 import uk.co.samholder.genetiq.benchmark.SphereBenchmark;
 import uk.co.samholder.genetiq.data.ResultState;
 import uk.co.samholder.genetiq.fitness.FitnessFunction;
@@ -24,7 +25,7 @@ import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.runner.genetic.SequentialGeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.selection.FitnessProportionateSelector;
 import uk.co.samholder.genetiq.selection.Selector;
-import uk.co.samholder.genetiq.termination.IterationCountTerminationCondition;
+import uk.co.samholder.genetiq.termination.FitnessThresholdTerminationCondition;
 import uk.co.samholder.genetiq.termination.TerminationCondition;
 import uk.co.samholder.genetiq.variation.VariationPipeline;
 
@@ -35,26 +36,39 @@ import uk.co.samholder.genetiq.variation.VariationPipeline;
  */
 public class BenchmarkExample extends GeneticAlgorithmConfiguration<Vector> {
 
-    // Configuration.
-    private static final int POPULATION_SIZE = 50;
-    private static final int NUM_DEMES = 20;
-    
-    private static final int DIMENSIONALITY = 5;
-    
-    private static final Random RANDOM = new Random();
-    
-    
-    public static void main(String[] args) {
-        // Run the algorithm.
-        GeneticAlgorithmConfiguration<Vector> pipeline = new BenchmarkExample();
+    /**
+     * A simple profile tests.
+     * 
+     * 50 dimensional sphere function problem, with an optimal fitness of 0 at (0, 0, ...).
+     * The Multi-deme model is used with 20 demes, each containing 50 individuals (totalling 1000 individuals).
+     * We time how long it takes to increase the fitness above -1 as a quantative measure of efficiency.
+     */
+    @Test
+    public void runTimeTest_shouldRun_inUnderAMinute() {
+        long startTime = System.currentTimeMillis();
         GeneticAlgorithmEngine<Vector> engine = new SequentialGeneticAlgorithmEngine<>();
-        ResultState data = engine.executePipeline(pipeline);
+        ResultState data = engine.executePipeline(this);
         // Get the best all time result from the algorithm.
         IndividualFitness<Vector> ind = data.getBestIndividual();
+        long endTime = System.currentTimeMillis();
         // Check whether palidrome property holds. Print details.
         Vector result = ind.getIndividual();
         System.out.println("best fitness: " + ind.getFitness() + " individual: " + result );
+        
+        float runTime = (float)(endTime - startTime) / 1000f;
+        
+        System.out.println("time: "+runTime);
+        if (runTime > 30f) {
+            throw new RuntimeException("Test ran for over 30 seconds");
+        }
+        
     }
+    
+    // Configuration.
+    private static final int POPULATION_SIZE = 50;
+    private static final int NUM_DEMES = 20;
+    private static final int DIMENSIONALITY = 50;
+    private static final Random RANDOM = new Random();
     
     @Override
     protected RoundStrategy roundStrategy() {
@@ -72,7 +86,7 @@ public class BenchmarkExample extends GeneticAlgorithmConfiguration<Vector> {
 
     @Override
     protected TerminationCondition terminationCondition() {
-        return new IterationCountTerminationCondition(100000);
+        return new FitnessThresholdTerminationCondition(-1.0);
     }
 
     @Override
@@ -107,7 +121,7 @@ public class BenchmarkExample extends GeneticAlgorithmConfiguration<Vector> {
 
     @Override
     protected Populator<Vector> populator() {
-        return new RandomVectorPopulator(RANDOM, DIMENSIONALITY, 100f, 1000f);
+        return new RandomVectorPopulator(RANDOM, DIMENSIONALITY, -10f, 10f);
     }
     
 }

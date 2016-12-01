@@ -64,6 +64,50 @@ public class Vector {
     public int getDimensions() {
         return values.length;
     }
+    
+    /**
+     * Adds two vectors
+     * @param otherVector other vector
+     * @return sum of the two vectors
+     */
+    public Vector add(Vector otherVector) {
+        if (otherVector.getDimensions() != getDimensions()) {
+            throw new IllegalArgumentException("dimensions don't match");
+        }
+        Vector sum = new Vector(getDimensions());
+        for (int i=0; i<getDimensions(); i++) {
+            sum.setValue(i, getValue(i) + otherVector.getValue(i));
+        }
+        return sum;
+    }
+    
+    /**
+     * Subtracts a vector
+     * @param otherVector other vector
+     * @return subtraction of the input vector
+     */
+    public Vector subtract(Vector otherVector) {
+        if (otherVector.getDimensions() != getDimensions()) {
+            throw new IllegalArgumentException("dimensions don't match");
+        }
+        Vector sum = new Vector(getDimensions());
+        for (int i=0; i<getDimensions(); i++) {
+            sum.setValue(i, getValue(i) + otherVector.getValue(i));
+        }
+        return sum;
+    }
+
+    /**
+     * Calculates the magnitude of the vector.
+     * @return magnitude of the vector
+     */
+    public double magnitude() {
+        double total = 0f;
+        for (int i=0; i<getDimensions(); i++) {
+            total += Math.pow(getValue(i), 2);
+        }
+        return Math.sqrt(total);
+    }
 
     @Override
     public String toString() {
