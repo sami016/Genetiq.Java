@@ -23,6 +23,7 @@ import uk.co.samholder.genetiq.round.RoundStrategy;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmConfiguration;
 import uk.co.samholder.genetiq.runner.genetic.GeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.runner.genetic.SequentialGeneticAlgorithmEngine;
+import uk.co.samholder.genetiq.runner.genetic.parallel.ParallelPopulationGeneticAlgorithmEngine;
 import uk.co.samholder.genetiq.selection.FitnessProportionateSelector;
 import uk.co.samholder.genetiq.selection.Selector;
 import uk.co.samholder.genetiq.termination.FitnessThresholdTerminationCondition;
@@ -44,24 +45,35 @@ public class BenchmarkExample extends GeneticAlgorithmConfiguration<Vector> {
      * We time how long it takes to increase the fitness above -1 as a quantative measure of efficiency.
      */
     @Test
-    public void runTimeTest_shouldRun_inUnderAMinute() {
+    public void runTimeTest_sequential_inUnderThirtySeconds() {
+        System.out.println("Sequential Genetic Algorithm Engine: ");
+        runStandardTest(new SequentialGeneticAlgorithmEngine<>(), 30f);
+    }
+    
+    @Test
+    public void runTimeTest_parallel_inUnderThirtySeconds() {
+        System.out.println("Parallel Population Genetic Algorithm Engine: ");
+        runStandardTest(new ParallelPopulationGeneticAlgorithmEngine<>(64), 30f);
+    }
+         
+    
+    private void runStandardTest(GeneticAlgorithmEngine<Vector> engine, float upperBoundTime) {
         long startTime = System.currentTimeMillis();
-        GeneticAlgorithmEngine<Vector> engine = new SequentialGeneticAlgorithmEngine<>();
         ResultState data = engine.executePipeline(this);
+        long endTime = System.currentTimeMillis();
+        float runTime = (float)(endTime - startTime) / 1000f;
         // Get the best all time result from the algorithm.
         IndividualFitness<Vector> ind = data.getBestIndividual();
-        long endTime = System.currentTimeMillis();
         // Check whether palidrome property holds. Print details.
         Vector result = ind.getIndividual();
+        
         System.out.println("best fitness: " + ind.getFitness() + " individual: " + result );
-        
-        float runTime = (float)(endTime - startTime) / 1000f;
-        
         System.out.println("time: "+runTime);
-        if (runTime > 30f) {
+        // Ideally we wouldn't go over the upper bound, but remember this is stochastic.
+        // Use fairly generous time limits when testing algorithm run times.
+        if (runTime > upperBoundTime) {
             throw new RuntimeException("Test ran for over 30 seconds");
         }
-        
     }
     
     // Configuration.
