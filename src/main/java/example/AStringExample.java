@@ -46,7 +46,7 @@ public class AStringExample extends GeneticAlgorithmConfiguration<String> {
     @Override
     protected FitnessFunction<String> fitnessFunction() {
     // Fitness function - counts the number types 'a' occurs in a string.
-        return (individual, population) -> {
+        return (individual) -> {
             return individual.chars().filter(value -> value == (int) 'a').count();
         };
     }

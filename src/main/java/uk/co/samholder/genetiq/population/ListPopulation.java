@@ -84,7 +84,7 @@ public class ListPopulation<I> implements Population<I> {
     @Override
     public void insertIndividual(I individual) {
         individuals.add(individual);
-        fitnessMapping.put(individual, fitnessFunction.calculateFitness(individual, this));
+        fitnessMapping.put(individual, fitnessFunction.calculateFitness(individual));
     }
 
     @Override
@@ -120,7 +120,7 @@ public class ListPopulation<I> implements Population<I> {
     @Override
     public void evaluatePostponedFitness() {
         for (I individual : uncalculated) {
-            fitnessMapping.put(individual, fitnessFunction.calculateFitness(individual, this));
+            fitnessMapping.put(individual, fitnessFunction.calculateFitness(individual));
         }
         initialPhase = false;
     }

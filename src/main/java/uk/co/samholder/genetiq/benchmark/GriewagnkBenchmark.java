@@ -1,6 +1,5 @@
 package uk.co.samholder.genetiq.benchmark;
 
-import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.representation.vector.Vector;
 
 /**
@@ -16,7 +15,7 @@ public class GriewagnkBenchmark extends AbstractBenchmark {
     }
     
     @Override
-    public double calculateFitness(Vector individual, Population<Vector> population) {
+    public double calculateFitness(Vector individual) {
         double sum = 0;
         double product = 1;
         for (int i =0; i<individual.getDimensions()-1; i++) {

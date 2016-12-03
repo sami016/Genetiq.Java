@@ -72,7 +72,7 @@ public class PalindromeExample extends GeneticAlgorithmConfiguration<String> {
 
     @Override
     protected FitnessFunction<String> fitnessFunction() {
-        return (individual, population) -> {
+        return (individual) -> {
             double score = 0;
             int length = individual.length();
             // Iterate over each character.
