@@ -77,6 +77,7 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
             // Prompt external interactions.
             doInteractions(data, interactors);
         }
+        onFinish();
         return data;
     }
     
@@ -89,6 +90,9 @@ public class SequentialGeneticAlgorithmEngine<I> implements GeneticAlgorithmEngi
         for (Interactor interactor : interactors) {
             interactor.interact(runData);
         }
+    }
+
+    protected void onFinish() {
     }
 
 }

@@ -1,6 +1,6 @@
 package uk.co.samholder.genetiq.runner.genetic.parallel;
 
-import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import uk.co.samholder.genetiq.population.Population;
 import uk.co.samholder.genetiq.population.PopulationModel;
@@ -17,7 +17,7 @@ import uk.co.samholder.genetiq.variation.VariationEngine;
  */
 public class ParallelPopulationGeneticAlgorithmEngine<I> extends SequentialGeneticAlgorithmEngine<I> {
     
-    private Executor executor;
+    private ExecutorService executor;
 
     public ParallelPopulationGeneticAlgorithmEngine(int numThreads) {
         executor = Executors.newFixedThreadPool(numThreads);
@@ -45,6 +45,11 @@ public class ParallelPopulationGeneticAlgorithmEngine<I> extends SequentialGenet
             roundStrategy.performRound(population, variationEngine, selector);
             lock.completeTask();
         });
+    }
+
+    @Override
+    protected void onFinish() {
+        executor.shutdown();
     }
     
     
